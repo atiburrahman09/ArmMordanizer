@@ -13,7 +13,7 @@ namespace ARMMordanizerService
 
         public ArmService(string connectionString)
         {
-            _armRepository = new ArmRepository(connectionString);
+            _armRepository = new ArmRepository();
         }
         public string IsValidFile(string physicalFile)
         {

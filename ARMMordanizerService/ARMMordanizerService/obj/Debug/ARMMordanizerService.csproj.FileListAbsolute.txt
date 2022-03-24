@@ -3,3 +3,13 @@ E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService
 E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.ArmMordanizerService.resources
 E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.GenerateResource.cache
 E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CoreCompileInputs.cache
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe.config
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.pdb
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.AssemblyReference.cache
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.SuggestedBindingRedirects.cache
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.ArmMordanizerService.resources
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.GenerateResource.cache
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CoreCompileInputs.cache
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.exe
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.pdb

@@ -12,14 +12,14 @@ namespace ARMMordanizerService
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main()
-        {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new ArmMordanizerService()
-            };
-            ServiceBase.Run(ServicesToRun);
-        }
+        //static void Main()
+        //{
+        //    ServiceBase[] ServicesToRun;
+        //    ServicesToRun = new ServiceBase[]
+        //    {
+        //        new ArmMordanizerService()
+        //    };
+        //    ServiceBase.Run(ServicesToRun);
+        //}
     }
 }
