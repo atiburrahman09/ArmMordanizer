@@ -1,0 +1,5 @@
+E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.AssemblyReference.cache
+E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.SuggestedBindingRedirects.cache
+E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.ArmMordanizerService.resources
+E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.GenerateResource.cache
+E:\work\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CoreCompileInputs.cache
