@@ -1,47 +1,141 @@
 ﻿using ARMMordanizerService.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ARMMordanizerService
 {
-    
 
-    public class ArmRepository:IArmRepository
+
+    public class ArmRepository : IArmRepository
     {
         private ConnectionDb _connectionDB;
+        private string temTableNamePrefix = "TEMP_RAW_";
+        private readonly string _dbName = ConfigurationManager.AppSettings["dbName"];
+
         public ArmRepository()
         {
             _connectionDB = new ConnectionDb();
         }
 
-        public int AddBulkData(object Data)
+        public int AddBulkData(DataTable dt, string tableName)
         {
-            _connectionDB.con.Open();
-            using ( var Tra = _connectionDB.con.BeginTransaction())
+            try
             {
+                _connectionDB.con.Open();
+                using (var Tra = _connectionDB.con.BeginTransaction())
+                {
+
+                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(_connectionDB.con))
+                    {
+                        //Set the database table name.  
+                        sqlBulkCopy.DestinationTableName = temTableNamePrefix + tableName;
+                        //con.Open();
+                        sqlBulkCopy.WriteToServer(dt);
+                        //con.Close();
+                    }
 
 
-                Tra.Commit();
+                    Tra.Commit();
+                }
+                _connectionDB.con.Close();
+                return 1;
             }
-                throw new NotImplementedException();
+            catch (Exception ex)
+            {
+                return 0;
+            }
+
+
         }
 
         public int CheckTableExists(string Tablename)
         {
-            throw new NotImplementedException();
+            string strCmd = null;
+            SqlCommand sqlCmd = null;
+
+            try
+            {
+                //strCmd = "select case when exists((select '['+SCHEMA_NAME(schema_id)+'].['+name+']' As name FROM [" + _dbName + "].sys.tables WHERE name = '" + Tablename + "')) then 1 else 0 end";
+
+
+                SqlCommand check_Table_Exists = new SqlCommand("SELECT COUNT(*) FROM [@dbName..FileStore] WHERE ([FileName] = @TableName)", _connectionDB.con);
+                check_Table_Exists.Parameters.Add("@dbName", SqlDbType.VarChar, 50).Value = _dbName;
+                check_Table_Exists.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = Tablename;
+                int UserExist = (int)check_Table_Exists.ExecuteScalar();
+                if (UserExist > 0)
+                    return 1;
+                else return 0;
+
+            }
+            catch { return 0; }
         }
 
         public int SaveFile(FileStore file)
         {
-            throw new NotImplementedException();
+            string query = "INSERT INTO " + _dbName + "..FileStore (FileName, ExecutionTime, Status) " +
+                   "VALUES (@FileName, @ExecutionTime, @Status) ";
+
+            // create connection and command
+            //using (SqlConnection cn = new SqlConnection(connectionString))
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
+                {
+                    // define parameters and their values
+                    cmd.Parameters.Add("@FileName", SqlDbType.VarChar, 50).Value = file.FileName;
+                    cmd.Parameters.Add("@ExecutionTime", SqlDbType.DateTime, 50).Value = file.ExecutionTime;
+                    cmd.Parameters.Add("@Status", SqlDbType.Bit, 50).Value = file.Status;
+
+                    // open connection, execute INSERT, close connection
+                    _connectionDB.con.Open();
+                    cmd.ExecuteNonQuery();
+                    _connectionDB.con.Close();
+                }
+                return 1;
+            }
+            catch (Exception ex) { return 0; }
         }
 
         public int SchemeCreate(string schema)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(schema, _connectionDB.con))
+                {
+
+                    _connectionDB.con.Open();
+                    cmd.ExecuteNonQuery();
+                    _connectionDB.con.Close();
+                }
+                return 1;
+            }
+            catch (Exception ex) { return 0; }
+        }
+
+        public int TruncateTable(string TableName)
+        {
+            string query = "TRUNCATE TABLE @dbName..@TableName  ";
+
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
+                {
+                    cmd.Parameters.Add("@dbName", SqlDbType.VarChar, 50).Value = _dbName;
+                    cmd.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = TableName;
+
+                    _connectionDB.con.Open();
+                    cmd.ExecuteNonQuery();
+                    _connectionDB.con.Close();
+                }
+                return 1;
+            }
+            catch (Exception ex) { return 0; }
         }
     }
 }
