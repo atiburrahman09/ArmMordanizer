@@ -22,6 +22,7 @@ namespace ARMMordanizerService
         private readonly IArmService _armService;
         readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
+
         static void Main()
         {
 #if (DEBUG)

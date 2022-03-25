@@ -17,49 +17,50 @@ namespace ARMMordanizerService
         private readonly string _armFilePath = @"" + ConfigurationManager.AppSettings["armFilePath"];
         private readonly string _armFileCompletePath = @"" + ConfigurationManager.AppSettings["armFileCompletePath"];
         //private readonly string _dbName =  ConfigurationManager.AppSettings["dbName"];
+        private string temTableNamePrefix = "TEMP_RAW_";
 
         private IArmService _iArmService;
         private IArmRepository _iArmRepo;
 
-        public Dictionary<string,Stream> FileRead()
+        public Dictionary<string, Stream> FileRead()
         {
-            var files =  File.ReadAllBytes(_armFilePath);
+            var files = File.ReadAllBytes(_armFilePath);
 
-            var streamList= new Dictionary<string,Stream>();  
+            var streamList = new Dictionary<string, Stream>();
             foreach (string txtName in Directory.GetFiles(_armFilePath))
             {
                 streamList.Add(txtName, new StreamReader(txtName).BaseStream);
             }
-            return  streamList;
+            return streamList;
         }
         private static readonly object Mylock = new object();
         public void FileParse(object sender, System.Timers.ElapsedEventArgs e)
         {
             var stringData = FileRead();
 
-            foreach(var file in stringData)
+            foreach (var file in stringData)
             {
                 string isValid = _iArmService.IsValidFile(_armFilePath + file.Key);
                 if (isValid == "" || isValid == string.Empty)
                 {
-                    DataTable dt = GetFileData(file.Key,file.Value);
-                   
+                    DataTable dt = GetFileData(file.Key, file.Value);
+
                     int isExists = _iArmRepo.CheckTableExists(file.Key);
                     if (isExists == 1)
                     {
                         _iArmRepo.TruncateTable(file.Key);
-                        _iArmRepo.AddBulkData(dt,file.Key);
+                        _iArmRepo.AddBulkData(dt, file.Key);
                         createFileStore(file);
                     }
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, file.Key);
+                        string createTableSQL = BuildCreateTableScript(dt, file.Key,temTableNamePrefix);
                         _iArmRepo.SchemeCreate(createTableSQL);
-                        _iArmRepo.AddBulkData(dt,file.Key);
+                        _iArmRepo.AddBulkData(dt, file.Key);
                     }
                 }
             }
-          
+
         }
         public void FileParse()
         {
@@ -81,13 +82,35 @@ namespace ARMMordanizerService
                     }
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, file.Key);
+                        string createTableSQL = BuildCreateTableScript(dt, file.Key,temTableNamePrefix);
                         _iArmRepo.SchemeCreate(createTableSQL);
                         _iArmRepo.AddBulkData(dt, file.Key);
                     }
                 }
             }
+            RemoveFilesFromFolder(stringData);
 
+        }
+
+        private void RemoveFilesFromFolder(Dictionary<string, Stream> stringData)
+        {
+            
+            string[] fileList = System.IO.Directory.GetFiles(_armFilePath);
+            foreach (string file in fileList)
+            {
+                string fileToMove = _armFilePath + file;
+                string moveTo = _armFileCompletePath + file + DateTime.Now.ToString();
+                //moving file
+                File.Copy(fileToMove, moveTo);
+                File.Delete(fileToMove);
+            }
+            //System.IO.DirectoryInfo di = new DirectoryInfo(_armFilePath);
+
+            //foreach (FileInfo file in di.GetFiles())
+            //{
+            //    file.Delete();
+            //}
+            //System.IO.Directory.Delete(_armFilePath);
         }
 
         private void createFileStore(KeyValuePair<string, Stream> file)
@@ -97,17 +120,17 @@ namespace ARMMordanizerService
                 FileName = file.Key,
                 ExecutionTime = DateTime.Now,
                 Status = true
-            } ;
+            };
             _iArmRepo.SaveFile(xFile);
         }
 
-        public static string BuildCreateTableScript(DataTable Table,string tableName)
+        public static string BuildCreateTableScript(DataTable Table, string tableName,string temTableNamePrefix)
         {
-            
-            StringBuilder result = new StringBuilder();
-            
 
-            result.AppendFormat("CREATE TABLE [{0}] ( ",tableName);
+            StringBuilder result = new StringBuilder();
+
+
+            result.AppendFormat("CREATE TABLE [{0}] ( ", temTableNamePrefix + tableName);
 
             result.AppendFormat("[{0}] {1} {2} {3} {4}",
                     "ID", // 0

@@ -65,7 +65,7 @@ namespace ARMMordanizerService
 
 
                 SqlCommand check_Table_Exists = new SqlCommand("SELECT COUNT(*) FROM [FileStore] WHERE ([FileName] = @TableName)", _connectionDB.con);
-                check_Table_Exists.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = Tablename;
+                check_Table_Exists.Parameters.AddWithValue("@TableName", Tablename);
                 int UserExist = (int)check_Table_Exists.ExecuteScalar();
                 if (UserExist > 0)
                     return 1;
@@ -87,9 +87,13 @@ namespace ARMMordanizerService
                 using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
                 {
                     // define parameters and their values
-                    cmd.Parameters.Add("@FileName", SqlDbType.VarChar, 50).Value = file.FileName;
-                    cmd.Parameters.Add("@ExecutionTime", SqlDbType.DateTime, 50).Value = file.ExecutionTime;
-                    cmd.Parameters.Add("@Status", SqlDbType.Bit, 50).Value = file.Status;
+                    //cmd.Parameters.Add("@FileName", SqlDbType.VarChar, 50).Value = file.FileName;
+                    //cmd.Parameters.Add("@ExecutionTime", SqlDbType.DateTime, 50).Value = file.ExecutionTime;
+                    //cmd.Parameters.Add("@Status", SqlDbType.Bit, 50).Value = file.Status;
+                    cmd.Parameters.AddWithValue("@FileName", file.FileName);
+                    cmd.Parameters.AddWithValue("@ExecutionTime", file.ExecutionTime);
+                    cmd.Parameters.AddWithValue("@Status", file.Status);
+
 
                     // open connection, execute INSERT, close connection
                     _connectionDB.con.Open();
@@ -125,7 +129,9 @@ namespace ARMMordanizerService
             {
                 using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
                 {
-                    cmd.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = TableName;
+                    //cmd.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = TableName;
+                    cmd.Parameters.AddWithValue("@TableName", TableName);
+
 
                     _connectionDB.con.Open();
                     cmd.ExecuteNonQuery();
