@@ -32,8 +32,8 @@ namespace ARMMordanizerService
             };
             ServiceBase.Run(ServicesToRun);
 #else
-            var winService = new TabDataExportWinService();
-            winService.Parse();
+            var winService = new FileParser();
+            winService.FileParse();
 #endif
         }
         public ArmMordanizerService()
@@ -59,6 +59,8 @@ namespace ARMMordanizerService
 
         protected override void OnStop()
         {
+            _timer.Enabled = false;
+            _timer.Stop();
         }
 
     }

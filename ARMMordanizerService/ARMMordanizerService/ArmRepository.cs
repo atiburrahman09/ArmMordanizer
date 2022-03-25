@@ -16,7 +16,7 @@ namespace ARMMordanizerService
     {
         private ConnectionDb _connectionDB;
         private string temTableNamePrefix = "TEMP_RAW_";
-        private readonly string _dbName = ConfigurationManager.AppSettings["dbName"];
+        //private readonly string _dbName = ConfigurationManager.AppSettings["dbName"];
 
         public ArmRepository()
         {
@@ -64,8 +64,7 @@ namespace ARMMordanizerService
                 //strCmd = "select case when exists((select '['+SCHEMA_NAME(schema_id)+'].['+name+']' As name FROM [" + _dbName + "].sys.tables WHERE name = '" + Tablename + "')) then 1 else 0 end";
 
 
-                SqlCommand check_Table_Exists = new SqlCommand("SELECT COUNT(*) FROM [@dbName..FileStore] WHERE ([FileName] = @TableName)", _connectionDB.con);
-                check_Table_Exists.Parameters.Add("@dbName", SqlDbType.VarChar, 50).Value = _dbName;
+                SqlCommand check_Table_Exists = new SqlCommand("SELECT COUNT(*) FROM [FileStore] WHERE ([FileName] = @TableName)", _connectionDB.con);
                 check_Table_Exists.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = Tablename;
                 int UserExist = (int)check_Table_Exists.ExecuteScalar();
                 if (UserExist > 0)
@@ -78,7 +77,7 @@ namespace ARMMordanizerService
 
         public int SaveFile(FileStore file)
         {
-            string query = "INSERT INTO " + _dbName + "..FileStore (FileName, ExecutionTime, Status) " +
+            string query = "INSERT INTO FileStore (FileName, ExecutionTime, Status) " +
                    "VALUES (@FileName, @ExecutionTime, @Status) ";
 
             // create connection and command
@@ -120,13 +119,12 @@ namespace ARMMordanizerService
 
         public int TruncateTable(string TableName)
         {
-            string query = "TRUNCATE TABLE @dbName..@TableName  ";
+            string query = "TRUNCATE TABLE @TableName  ";
 
             try
             {
                 using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
                 {
-                    cmd.Parameters.Add("@dbName", SqlDbType.VarChar, 50).Value = _dbName;
                     cmd.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = TableName;
 
                     _connectionDB.con.Open();

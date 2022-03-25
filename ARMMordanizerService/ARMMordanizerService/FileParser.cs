@@ -16,7 +16,7 @@ namespace ARMMordanizerService
     {
         private readonly string _armFilePath = @"" + ConfigurationManager.AppSettings["armFilePath"];
         private readonly string _armFileCompletePath = @"" + ConfigurationManager.AppSettings["armFileCompletePath"];
-        private readonly string _dbName =  ConfigurationManager.AppSettings["dbName"];
+        //private readonly string _dbName =  ConfigurationManager.AppSettings["dbName"];
 
         private IArmService _iArmService;
         private IArmRepository _iArmRepo;
@@ -53,13 +53,41 @@ namespace ARMMordanizerService
                     }
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, file.Key,_dbName);
+                        string createTableSQL = BuildCreateTableScript(dt, file.Key);
                         _iArmRepo.SchemeCreate(createTableSQL);
                         _iArmRepo.AddBulkData(dt,file.Key);
                     }
                 }
             }
           
+        }
+        public void FileParse()
+        {
+            var stringData = FileRead();
+
+            foreach (var file in stringData)
+            {
+                string isValid = _iArmService.IsValidFile(_armFilePath + file.Key);
+                if (isValid == "" || isValid == string.Empty)
+                {
+                    DataTable dt = GetFileData(file.Key, file.Value);
+
+                    int isExists = _iArmRepo.CheckTableExists(file.Key);
+                    if (isExists == 1)
+                    {
+                        _iArmRepo.TruncateTable(file.Key);
+                        _iArmRepo.AddBulkData(dt, file.Key);
+                        createFileStore(file);
+                    }
+                    else
+                    {
+                        string createTableSQL = BuildCreateTableScript(dt, file.Key);
+                        _iArmRepo.SchemeCreate(createTableSQL);
+                        _iArmRepo.AddBulkData(dt, file.Key);
+                    }
+                }
+            }
+
         }
 
         private void createFileStore(KeyValuePair<string, Stream> file)
@@ -73,11 +101,11 @@ namespace ARMMordanizerService
             _iArmRepo.SaveFile(xFile);
         }
 
-        public static string BuildCreateTableScript(DataTable Table,string tableName,string dbName)
+        public static string BuildCreateTableScript(DataTable Table,string tableName)
         {
             
             StringBuilder result = new StringBuilder();
-            result.AppendFormat("USE DATABASE [{0}] {1}", dbName, Environment.NewLine);
+            
 
             result.AppendFormat("CREATE TABLE [{0}] ( ",tableName);
 
