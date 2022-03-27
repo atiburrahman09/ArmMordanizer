@@ -43,7 +43,7 @@ namespace ARMMordanizerService
             //While debugging this section is used.
             ArmMordanizerService myService = new ArmMordanizerService();
             myService.onDebug();
-            System.Threading.Thread.Sleep(1000000);
+            System.Threading.Thread.Sleep(360000);
 
 #else
     //In Release this section is used. This is the "normal" way.

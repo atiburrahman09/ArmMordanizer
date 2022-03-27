@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -55,36 +56,8 @@ namespace ARMMordanizerService
                     int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                     if (isExists == 1)
                     {
-                        _iArmRepo.TruncateTable(file.Key);
-                        _iArmRepo.AddBulkData(dt, file.Key);
-                        createFileStore(file);
-                    }
-                    else
-                    {
-                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
-                        _iArmRepo.SchemeCreate(createTableSQL);
+                        _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                         _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                    }
-                }
-            }
-
-        }
-        public void FileParse()
-        {
-            var stringData = FileRead();
-
-            foreach (var file in stringData)
-            {
-                string isValid = _iArmService.IsValidFile(_armFilePath + file.Key);
-                if (isValid == "" || isValid == string.Empty)
-                {
-                    DataTable dt = GetFileData(file.Key, file.Value);
-
-                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                    if (isExists == 1)
-                    {
-                        _iArmRepo.TruncateTable(file.Key);
-                        _iArmRepo.AddBulkData(dt, file.Key);
                         createFileStore(file);
                     }
                     else
@@ -96,21 +69,88 @@ namespace ARMMordanizerService
                 }
             }
             RemoveFilesFromFolder(stringData);
+            DeleteFilesFromFolder(stringData);
+
+        }
+        public void FileParse()
+        {
+            var stringData = FileRead();
+
+            foreach (var file in stringData)
+            {
+                string path = _armFilePath + file.Key;
+                string isValid = _iArmService.IsValidFile(path);
+                if (isValid == "" || isValid == string.Empty)
+                {
+                    DataTable dt = GetFileData(file.Key, file.Value);
+
+                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                    if (isExists == 1)
+                    {
+                        _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                        _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                        createFileStore(file);
+                    }
+                    else
+                    {
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
+                        _iArmRepo.SchemeCreate(createTableSQL);
+                        _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                        createFileStore(file);
+
+                    }
+                }
+            }
+            RemoveFilesFromFolder(stringData);
+            DeleteFilesFromFolder(stringData);
+
+        }
+
+        private void DeleteFilesFromFolder(Dictionary<string, Stream> stringData)
+        {
+            string[] fileList = System.IO.Directory.GetFiles(_armFilePath);
+
+            bool errors = false;
+            DirectoryInfo dir = new DirectoryInfo(_armFilePath);
+
+            foreach (FileInfo fi in dir.EnumerateFiles())
+            {
+                try
+                {
+                    fi.IsReadOnly = false;
+                    fi.Delete();
+
+                    //Wait for the item to disapear (avoid 'dir not empty' error).
+                    while (fi.Exists)
+                    {
+                        System.Threading.Thread.Sleep(10);
+                        fi.Refresh();
+                    }
+                }
+                catch (IOException e)
+                {
+                    Debug.WriteLine(e.Message);
+                    errors = true;
+                }
+            }
 
         }
 
         private void RemoveFilesFromFolder(Dictionary<string, Stream> stringData)
         {
-            
+
             string[] fileList = System.IO.Directory.GetFiles(_armFilePath);
             foreach (string file in fileList)
             {
-                string fileToMove = _armFilePath + file;
-                string moveTo = _armFileCompletePath + file + DateTime.Now.ToString();
+                string fileToMove = _armFilePath + Path.GetFileName(file);
+                string moveTo = _armFileCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(file);
                 //moving file
+                //System.IO.File.Move(file, moveTo);
+
                 File.Copy(fileToMove, moveTo);
-                File.Delete(fileToMove);
+                //File.Delete(fileToMove);
             }
+
             //System.IO.DirectoryInfo di = new DirectoryInfo(_armFilePath);
 
             //foreach (FileInfo file in di.GetFiles())

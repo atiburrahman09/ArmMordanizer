@@ -67,21 +67,23 @@ namespace ARMMordanizerService
         {
             string strCmd = null;
             SqlCommand sqlCmd = null;
-
+            string query = "SELECT COUNT(*) FROM [FileStore] WHERE [FileName] = @TableName";
             try
             {
-                //strCmd = "select case when exists((select '['+SCHEMA_NAME(schema_id)+'].['+name+']' As name FROM [" + _dbName + "].sys.tables WHERE name = '" + Tablename + "')) then 1 else 0 end";
+                using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
+                {
+                    cmd.Parameters.AddWithValue("@TableName", Tablename);
 
 
-                SqlCommand check_Table_Exists = new SqlCommand("SELECT COUNT(*) FROM [FileStore] WHERE ([FileName] = @TableName)", _connectionDB.con);
-                check_Table_Exists.Parameters.AddWithValue("@TableName", Tablename);
-                int UserExist = (int)check_Table_Exists.ExecuteScalar();
-                if (UserExist > 0)
-                    return 1;
-                else return 0;
-
+                    // open connection, execute INSERT, close connection
+                    _connectionDB.con.Open();
+                    int UserExist = (int)cmd.ExecuteScalar();
+                    _connectionDB.con.Close();
+                }
+                return 1;
             }
-            catch { return 0; }
+            catch (Exception ex) { return 0; }
+
         }
 
         public int SaveFile(FileStore file)
@@ -132,14 +134,21 @@ namespace ARMMordanizerService
 
         public int TruncateTable(string TableName)
         {
-            string query = "TRUNCATE TABLE @TableName  ";
+            //string query = "truncate table @TableName";
+            string tableName = temTableNamePrefix + TableName;
+
+            string strTruncateTable = "TRUNCATE TABLE " + tableName;
+
+            //SqlCommand truncateTable = new SqlCommand(strTruncateTable, myConnection);
+            //truncateTable.Parameters.AddWithValue("TableNameTruncate", tbTableName.Text);
+            //truncateTable.ExecuteNonQuery();
 
             try
             {
-                using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
+                using (SqlCommand cmd = new SqlCommand(strTruncateTable, _connectionDB.con))
                 {
                     //cmd.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = TableName;
-                    cmd.Parameters.AddWithValue("@TableName", TableName);
+                    //cmd.Parameters.AddWithValue("@TableName", tableName);
 
 
                     _connectionDB.con.Open();
