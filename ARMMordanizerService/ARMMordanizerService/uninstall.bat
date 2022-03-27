@@ -1,3 +1,3 @@
-C:\WINDOWS\Microsoft.NET\Framework\v4.7.2\installutil.exe /u "D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe"
+C:\WINDOWS\Microsoft.NET\Framework\v4.7.2\installutil.exe /u "E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe"
 
 pause

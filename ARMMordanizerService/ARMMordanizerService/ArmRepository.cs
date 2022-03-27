@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,23 +28,31 @@ namespace ARMMordanizerService
         {
             try
             {
-                _connectionDB.con.Open();
-                using (var Tra = _connectionDB.con.BeginTransaction())
+                using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(_connectionDB.con))
                 {
-
-                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(_connectionDB.con))
-                    {
-                        //Set the database table name.  
-                        sqlBulkCopy.DestinationTableName = temTableNamePrefix + tableName;
-                        //con.Open();
-                        sqlBulkCopy.WriteToServer(dt);
-                        //con.Close();
-                    }
-
-
-                    Tra.Commit();
+                    //Set the database table name.  
+                    sqlBulkCopy.DestinationTableName = temTableNamePrefix + tableName;
+                    _connectionDB.con.Open();
+                    sqlBulkCopy.WriteToServer(dt);
+                    _connectionDB.con.Close();
                 }
-                _connectionDB.con.Close();
+                //using (var Tra = _connectionDB.con.BeginTransaction())
+                //{
+                //    //_connectionDB.con.Open();
+                //    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(_connectionDB.con))
+                //    {
+                //        //Set the database table name.  
+                //        sqlBulkCopy.DestinationTableName = temTableNamePrefix + tableName;
+                //        //con.Open();
+                //        sqlBulkCopy.WriteToServer(dt);
+                //        //con.Close();
+                //    }
+
+
+                //    Tra.Commit();
+                //    //_connectionDB.con.Close();
+                //}
+
                 return 1;
             }
             catch (Exception ex)

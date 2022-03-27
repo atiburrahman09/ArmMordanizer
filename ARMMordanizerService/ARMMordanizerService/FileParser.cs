@@ -19,17 +19,23 @@ namespace ARMMordanizerService
         //private readonly string _dbName =  ConfigurationManager.AppSettings["dbName"];
         private string temTableNamePrefix = "TEMP_RAW_";
 
-        private IArmService _iArmService;
+        private readonly IArmService _iArmService;
         private IArmRepository _iArmRepo;
-
+        public FileParser()
+        {
+            _iArmService = new ArmService();
+            _iArmRepo = new ArmRepository();
+        }
         public Dictionary<string, Stream> FileRead()
         {
-            var files = File.ReadAllBytes(_armFilePath);
+            //var files = File.ReadAllBytes(_armFilePath);
+            //DirectoryInfo di = new DirectoryInfo(_armFilePath);
+            //FileInfo[] files = di.GetFiles();
 
             var streamList = new Dictionary<string, Stream>();
             foreach (string txtName in Directory.GetFiles(_armFilePath))
             {
-                streamList.Add(txtName, new StreamReader(txtName).BaseStream);
+                streamList.Add(Path.GetFileName(txtName), new StreamReader(txtName).BaseStream);
             }
             return streamList;
         }
@@ -40,12 +46,13 @@ namespace ARMMordanizerService
 
             foreach (var file in stringData)
             {
-                string isValid = _iArmService.IsValidFile(_armFilePath + file.Key);
+                string path = _armFilePath + file.Key;
+                string isValid = _iArmService.IsValidFile(path);
                 if (isValid == "" || isValid == string.Empty)
                 {
                     DataTable dt = GetFileData(file.Key, file.Value);
 
-                    int isExists = _iArmRepo.CheckTableExists(file.Key);
+                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                     if (isExists == 1)
                     {
                         _iArmRepo.TruncateTable(file.Key);
@@ -54,9 +61,9 @@ namespace ARMMordanizerService
                     }
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, file.Key,temTableNamePrefix);
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
                         _iArmRepo.SchemeCreate(createTableSQL);
-                        _iArmRepo.AddBulkData(dt, file.Key);
+                        _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                     }
                 }
             }
@@ -73,7 +80,7 @@ namespace ARMMordanizerService
                 {
                     DataTable dt = GetFileData(file.Key, file.Value);
 
-                    int isExists = _iArmRepo.CheckTableExists(file.Key);
+                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                     if (isExists == 1)
                     {
                         _iArmRepo.TruncateTable(file.Key);
@@ -82,9 +89,9 @@ namespace ARMMordanizerService
                     }
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, file.Key,temTableNamePrefix);
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
                         _iArmRepo.SchemeCreate(createTableSQL);
-                        _iArmRepo.AddBulkData(dt, file.Key);
+                        _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                     }
                 }
             }

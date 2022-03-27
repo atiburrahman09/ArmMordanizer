@@ -11,7 +11,7 @@ namespace ARMMordanizerService
     {
         private readonly IArmRepository _armRepository;
 
-        public ArmService(string connectionString)
+        public ArmService()
         {
             _armRepository = new ArmRepository();
         }
@@ -19,10 +19,14 @@ namespace ARMMordanizerService
         {
             if (!File.Exists(physicalFile))
                 return "File not found";
-            var file = new FileInfo(physicalFile);
-            if (file.Extension != ".CSV" || file.Extension != ".XSLX")
-                return "Invalid file";
-            return "";
+            //var file = new FileInfo(physicalFile);
+            //string file= Path.GetExtension(physicalFile);
+            if (Path.GetExtension(physicalFile) == ".CSV")
+                return "";
+            if (Path.GetExtension(physicalFile) == ".xlsx")
+                return "";
+            return "Invalid file";
+            
         }
     }
 }
