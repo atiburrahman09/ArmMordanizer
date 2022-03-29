@@ -20,42 +20,42 @@ namespace ARMMordanizerService
         readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
 
+//        static void Main()
+//        {
+//#if (DEBUG)
+//            ServiceBase[] ServicesToRun;
+//            ServicesToRun = new ServiceBase[]
+//            {
+//                                new ArmMordanizerService()
+//            };
+//            ServiceBase.Run(ServicesToRun);
+//#else
+//                            var winService = new FileParser();
+//                            winService.FileParse();
+//#endif
+//        }
         //        static void Main()
         //        {
-        //#if (DEBUG)
-        //            ServiceBase[] ServicesToRun;
-        //            ServicesToRun = new ServiceBase[]
-        //            {
-        //                new ArmMordanizerService()
-        //            };
-        //            ServiceBase.Run(ServicesToRun);
+        //#if DEBUG
+        //  //          While debugging this section is used.
+        //            ArmMordanizerService myService = new ArmMordanizerService();
+        //            myService.onDebug();
+        //            System.Threading.Thread.Sleep(360000);
+
         //#else
-        //            var winService = new FileParser();
-        //            winService.FileParse();
+        //    In Release this section is used. This is the "normal" way.
+        //                    ServiceBase[] ServicesToRun;
+        //                    ServicesToRun = new ServiceBase[]
+        //                    {
+        //                        new ArmMordanizerService()
+        //                    };
+        //                    ServiceBase.Run(ServicesToRun);
         //#endif
         //        }
-        static void Main()
-        {
-#if DEBUG
-            //While debugging this section is used.
-            ArmMordanizerService myService = new ArmMordanizerService();
-            myService.onDebug();
-            System.Threading.Thread.Sleep(360000);
-
-#else
-    //In Release this section is used. This is the "normal" way.
-                    ServiceBase[] ServicesToRun;
-                    ServicesToRun = new ServiceBase[]
-                    {
-                        new ArmMordanizerService()
-                    };
-                    ServiceBase.Run(ServicesToRun);
-#endif
-        }
-        public void onDebug()
-        {
-            OnStart(null);
-        }
+        //public void onDebug()
+        //{
+        //    OnStart(null);
+        //}
         public ArmMordanizerService()
         {
 

@@ -1,0 +1,87 @@
+﻿
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The uninstall has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The Install phase completed successfully, and the Commit phase is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The Commit phase completed successfully.
+
+The transacted install has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The uninstall has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+An exception occurred during the Install phase.
+System.InvalidOperationException: User has canceled installation of services in executable E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe.
+
+The Rollback phase of the installation is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The Rollback phase completed successfully.
+
+The transacted install has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The uninstall has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The uninstall has completed.

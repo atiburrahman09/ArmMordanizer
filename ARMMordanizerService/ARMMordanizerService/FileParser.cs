@@ -73,13 +73,15 @@ namespace ARMMordanizerService
                     }
                 }
             }
-            
+
             RemoveFilesFromFolder(stringData);
-            DeleteFilesFromFolder();
+            DeleteFilesFromFolder(stringData);
 
         }
         public void FileParse()
         {
+            //if (!Monitor.TryEnter(Mylock, 0)) return;
+
             var stringData = FileRead();
 
             foreach (var file in stringData)
@@ -103,40 +105,38 @@ namespace ARMMordanizerService
                         _iArmRepo.SchemeCreate(createTableSQL);
                         _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                         createFileStore(file);
-
                     }
                 }
             }
+
             RemoveFilesFromFolder(stringData);
-            DeleteFilesFromFolder();
+            DeleteFilesFromFolder(stringData);
 
         }
 
-        private void DeleteFilesFromFolder()
+        private void DeleteFilesFromFolder(Dictionary<string, Stream> stringData)
         {
-            bool errors = false;
-            DirectoryInfo dir = new DirectoryInfo(_armFilePath);
+            //DirectoryInfo dir = new DirectoryInfo(_armFilePath);
 
-            foreach (FileInfo fi in dir.EnumerateFiles())
+            foreach (var file in stringData)
             {
                 try
                 {
+                    File.Delete(_armFilePath + file.Key);
+                    //FileSecurity fs = File.GetAccessControl(_armFilePath);
+                    //fi.IsReadOnly = false;
+                    //fi.Delete();
 
-                    FileSecurity fs = File.GetAccessControl(_armFilePath);
-                    fi.IsReadOnly = false;
-                    fi.Delete();
-
-                    //Wait for the item to disapear (avoid 'dir not empty' error).
-                    while (fi.Exists)
-                    {
-                        System.Threading.Thread.Sleep(10);
-                        fi.Refresh();
-                    }
+                    ////Wait for the item to disapear (avoid 'dir not empty' error).
+                    //while (fi.Exists)
+                    //{
+                    //    System.Threading.Thread.Sleep(10);
+                    //    fi.Refresh();
+                    //}
                 }
                 catch (IOException e)
                 {
                     Debug.WriteLine(e.Message);
-                    errors = true;
                 }
             }
 
@@ -166,7 +166,7 @@ namespace ARMMordanizerService
             _iArmRepo.SaveFile(xFile);
         }
 
-        public static string BuildCreateTableScript(DataTable Table, string tableName,string temTableNamePrefix)
+        public static string BuildCreateTableScript(DataTable Table, string tableName, string temTableNamePrefix)
         {
 
             StringBuilder result = new StringBuilder();
@@ -247,7 +247,7 @@ namespace ARMMordanizerService
                 case "UInt32": return "[int] UNSIGNED";
                 case "UInt64": return "[bigint] UNSIGNED";
                 case "Single": return "[float]";
-                case "Double": return "[double]";
+                case "Double": return "[float]";
                 case "Decimal": return "[decimal]";
                 case "DateTime": return "[datetime]";
                 case "Guid": return "[uniqueidentifier]";
@@ -259,17 +259,58 @@ namespace ARMMordanizerService
 
         private DataTable GetFileData(string key, Stream value)
         {
-            DataTable dt;
-            using (var package = new ExcelPackage(value))
+            DataTable dt = new DataTable();
+            if (Path.GetExtension(key) == ".csv")
             {
+                return CSVToDataTable(_armFilePath + key);
+            }
+            else
+            {
+                using (var package = new ExcelPackage(value))
+                {
 
-                Workbook workbook = new Workbook(value);
-                Worksheet worksheet = workbook.Worksheets[0];
-                //worksheet
-                dt = worksheet.Cells.ExportDataTable(0, 0, worksheet.Cells.MaxDataRow + 1, worksheet.Cells.MaxDataColumn + 1, true);
-                value.Close();
+                    Workbook workbook = new Workbook(value);
+                    Worksheet worksheet = workbook.Worksheets[0];
+                    //worksheet
+                    dt = worksheet.Cells.ExportDataTable(0, 0, worksheet.Cells.MaxDataRow + 1, worksheet.Cells.MaxDataColumn + 1, true);
+                    value.Close();
+                    return dt;
+
+                }
+            }
+        }
+        private DataTable CSVToDataTable(string path)
+        {
+            DataTable dt = new DataTable();
+            string csvData;
+            using (StreamReader sr = new StreamReader(path))
+            {
+                csvData = sr.ReadToEnd().ToString();
+                string[] row = csvData.Split('\n');
+                for (int i = 0; i < row.Count() - 1; i++)
+                {
+                    string[] rowData = row[i].Split(',');
+                    {
+                        if (i == 0)
+                        {
+                            for (int j = 0; j < rowData.Count(); j++)
+                            {
+                                dt.Columns.Add(rowData[j].Trim());
+                            }
+                        }
+                        else
+                        {
+                            DataRow dr = dt.NewRow();
+                            for (int k = 0; k < rowData.Count(); k++)
+                            {
+                                dr[k] = rowData[k].ToString();
+                            }
+                            dt.Rows.Add(dr);
+                        }
+                    }
+                }
+
                 return dt;
-
             }
         }
     }

@@ -21,7 +21,7 @@ namespace ARMMordanizerService
                 return "File not found";
             //var file = new FileInfo(physicalFile);
             //string file= Path.GetExtension(physicalFile);
-            if (Path.GetExtension(physicalFile) == ".CSV")
+            if (Path.GetExtension(physicalFile) == ".csv")
                 return "";
             if (Path.GetExtension(physicalFile) == ".xlsx")
                 return "";

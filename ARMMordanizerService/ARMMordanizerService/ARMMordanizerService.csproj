@@ -53,8 +53,10 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Windows.Forms" />
@@ -72,6 +74,12 @@
     </Compile>
     <Compile Include="ArmMordanizerService.Designer.cs">
       <DependentUpon>ArmMordanizerService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
     <Compile Include="Repository\ArmRepository.cs" />
     <Compile Include="Service\ArmService.cs" />
@@ -92,6 +100,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ArmMordanizerService.resx">
       <DependentUpon>ArmMordanizerService.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
