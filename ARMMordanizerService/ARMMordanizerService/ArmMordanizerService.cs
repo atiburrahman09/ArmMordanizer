@@ -15,11 +15,8 @@ namespace ARMMordanizerService
 {
     public partial class ArmMordanizerService : ServiceBase
     {
-        //private readonly string _connectionString = ConfigurationManager.ConnectionStrings["ArmConnection"].ConnectionString;
-        //private readonly string _armFilePath = @"" + ConfigurationManager.AppSettings["armFilePath"];
-        //private readonly string _armFileCompletePath = @"" + ConfigurationManager.AppSettings["armFileCompletePath"];
-        //private SqlConnection con;
-        private readonly IArmService _armService;
+        private readonly ILogger _logger;
+
         readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
 
@@ -63,10 +60,13 @@ namespace ARMMordanizerService
         {
 
             //InitializeComponent();
+            _logger = Logger.GetInstance;
+
         }
 
         protected override void OnStart(string[] args)
         {
+            _logger.Log("Service started");
             InitializeComponents();
         }
         private void InitializeComponents()
@@ -84,6 +84,8 @@ namespace ARMMordanizerService
         {
             _timer.Enabled = false;
             _timer.Stop();
+            _logger.Log("Service stopped");
+
         }
 
     }

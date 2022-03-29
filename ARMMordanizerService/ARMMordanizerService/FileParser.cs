@@ -8,7 +8,9 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ARMMordanizerService
@@ -17,32 +19,34 @@ namespace ARMMordanizerService
     {
         private readonly string _armFilePath = @"" + ConfigurationManager.AppSettings["armFilePath"];
         private readonly string _armFileCompletePath = @"" + ConfigurationManager.AppSettings["armFileCompletePath"];
-        //private readonly string _dbName =  ConfigurationManager.AppSettings["dbName"];
         private string temTableNamePrefix = "TEMP_RAW_";
 
         private readonly IArmService _iArmService;
         private IArmRepository _iArmRepo;
+        private readonly ILogger _logger;
+
         public FileParser()
         {
             _iArmService = new ArmService();
             _iArmRepo = new ArmRepository();
+            _logger = Logger.GetInstance;
         }
         public Dictionary<string, Stream> FileRead()
         {
-            //var files = File.ReadAllBytes(_armFilePath);
-            //DirectoryInfo di = new DirectoryInfo(_armFilePath);
-            //FileInfo[] files = di.GetFiles();
-
             var streamList = new Dictionary<string, Stream>();
             foreach (string txtName in Directory.GetFiles(_armFilePath))
             {
+                //StreamReader x = new StreamReader(txtName);
                 streamList.Add(Path.GetFileName(txtName), new StreamReader(txtName).BaseStream);
+                //x.Close();
             }
             return streamList;
         }
         private static readonly object Mylock = new object();
         public void FileParse(object sender, System.Timers.ElapsedEventArgs e)
         {
+            if (!Monitor.TryEnter(Mylock, 0)) return;
+
             var stringData = FileRead();
 
             foreach (var file in stringData)
@@ -68,8 +72,9 @@ namespace ARMMordanizerService
                     }
                 }
             }
+            
             RemoveFilesFromFolder(stringData);
-            DeleteFilesFromFolder(stringData);
+            DeleteFilesFromFolder();
 
         }
         public void FileParse()
@@ -102,14 +107,12 @@ namespace ARMMordanizerService
                 }
             }
             RemoveFilesFromFolder(stringData);
-            DeleteFilesFromFolder(stringData);
+            DeleteFilesFromFolder();
 
         }
 
-        private void DeleteFilesFromFolder(Dictionary<string, Stream> stringData)
+        private void DeleteFilesFromFolder()
         {
-            string[] fileList = System.IO.Directory.GetFiles(_armFilePath);
-
             bool errors = false;
             DirectoryInfo dir = new DirectoryInfo(_armFilePath);
 
@@ -117,6 +120,8 @@ namespace ARMMordanizerService
             {
                 try
                 {
+
+                    FileSecurity fs = File.GetAccessControl(_armFilePath);
                     fi.IsReadOnly = false;
                     fi.Delete();
 
@@ -145,19 +150,8 @@ namespace ARMMordanizerService
                 string fileToMove = _armFilePath + Path.GetFileName(file);
                 string moveTo = _armFileCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(file);
                 //moving file
-                //System.IO.File.Move(file, moveTo);
-
                 File.Copy(fileToMove, moveTo);
-                //File.Delete(fileToMove);
             }
-
-            //System.IO.DirectoryInfo di = new DirectoryInfo(_armFilePath);
-
-            //foreach (FileInfo file in di.GetFiles())
-            //{
-            //    file.Delete();
-            //}
-            //System.IO.Directory.Delete(_armFilePath);
         }
 
         private void createFileStore(KeyValuePair<string, Stream> file)
@@ -272,6 +266,7 @@ namespace ARMMordanizerService
                 Worksheet worksheet = workbook.Worksheets[0];
                 //worksheet
                 dt = worksheet.Cells.ExportDataTable(0, 0, worksheet.Cells.MaxDataRow + 1, worksheet.Cells.MaxDataColumn + 1, true);
+                value.Close();
                 return dt;
 
             }

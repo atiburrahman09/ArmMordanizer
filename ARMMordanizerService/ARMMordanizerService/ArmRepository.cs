@@ -16,11 +16,13 @@ namespace ARMMordanizerService
     public class ArmRepository : IArmRepository
     {
         private ConnectionDb _connectionDB;
+        private readonly ILogger _logger;
         private string temTableNamePrefix = "TEMP_RAW_";
-        //private readonly string _dbName = ConfigurationManager.AppSettings["dbName"];
 
         public ArmRepository()
         {
+            _logger = Logger.GetInstance;
+
             _connectionDB = new ConnectionDb();
         }
 
@@ -36,27 +38,13 @@ namespace ARMMordanizerService
                     sqlBulkCopy.WriteToServer(dt);
                     _connectionDB.con.Close();
                 }
-                //using (var Tra = _connectionDB.con.BeginTransaction())
-                //{
-                //    //_connectionDB.con.Open();
-                //    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(_connectionDB.con))
-                //    {
-                //        //Set the database table name.  
-                //        sqlBulkCopy.DestinationTableName = temTableNamePrefix + tableName;
-                //        //con.Open();
-                //        sqlBulkCopy.WriteToServer(dt);
-                //        //con.Close();
-                //    }
-
-
-                //    Tra.Commit();
-                //    //_connectionDB.con.Close();
-                //}
 
                 return 1;
             }
             catch (Exception ex)
             {
+                _logger.Log("AddBulkData Exception: " + ex.Message);
+
                 return 0;
             }
 
@@ -65,8 +53,6 @@ namespace ARMMordanizerService
 
         public int CheckTableExists(string Tablename)
         {
-            string strCmd = null;
-            SqlCommand sqlCmd = null;
             string query = "SELECT COUNT(*) FROM [FileStore] WHERE [FileName] = @TableName";
             try
             {
@@ -74,15 +60,17 @@ namespace ARMMordanizerService
                 {
                     cmd.Parameters.AddWithValue("@TableName", Tablename);
 
-
-                    // open connection, execute INSERT, close connection
                     _connectionDB.con.Open();
                     int UserExist = (int)cmd.ExecuteScalar();
                     _connectionDB.con.Close();
                 }
                 return 1;
             }
-            catch (Exception ex) { return 0; }
+            catch (Exception ex)
+            {
+                _logger.Log("CheckTableExists Exception: " + ex.Message);
+                return 0;
+            }
 
         }
 
@@ -97,10 +85,6 @@ namespace ARMMordanizerService
             {
                 using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
                 {
-                    // define parameters and their values
-                    //cmd.Parameters.Add("@FileName", SqlDbType.VarChar, 50).Value = file.FileName;
-                    //cmd.Parameters.Add("@ExecutionTime", SqlDbType.DateTime, 50).Value = file.ExecutionTime;
-                    //cmd.Parameters.Add("@Status", SqlDbType.Bit, 50).Value = file.Status;
                     cmd.Parameters.AddWithValue("@FileName", file.FileName);
                     cmd.Parameters.AddWithValue("@ExecutionTime", file.ExecutionTime);
                     cmd.Parameters.AddWithValue("@Status", file.Status);
@@ -113,7 +97,11 @@ namespace ARMMordanizerService
                 }
                 return 1;
             }
-            catch (Exception ex) { return 0; }
+            catch (Exception ex) 
+            {
+                _logger.Log("SaveFile Exception: " + ex.Message);
+                return 0; 
+            }
         }
 
         public int SchemeCreate(string schema)
@@ -129,7 +117,11 @@ namespace ARMMordanizerService
                 }
                 return 1;
             }
-            catch (Exception ex) { return 0; }
+            catch (Exception ex) 
+            {
+                _logger.Log("SchemeCreate Exception: " + ex.Message);
+                return 0; 
+            }
         }
 
         public int TruncateTable(string TableName)
@@ -139,25 +131,22 @@ namespace ARMMordanizerService
 
             string strTruncateTable = "TRUNCATE TABLE " + tableName;
 
-            //SqlCommand truncateTable = new SqlCommand(strTruncateTable, myConnection);
-            //truncateTable.Parameters.AddWithValue("TableNameTruncate", tbTableName.Text);
-            //truncateTable.ExecuteNonQuery();
 
             try
             {
                 using (SqlCommand cmd = new SqlCommand(strTruncateTable, _connectionDB.con))
                 {
-                    //cmd.Parameters.Add("@TableName", SqlDbType.DateTime, 50).Value = TableName;
-                    //cmd.Parameters.AddWithValue("@TableName", tableName);
-
-
                     _connectionDB.con.Open();
                     cmd.ExecuteNonQuery();
                     _connectionDB.con.Close();
                 }
                 return 1;
             }
-            catch (Exception ex) { return 0; }
+            catch (Exception ex) 
+            {
+                _logger.Log("TruncateTable Exception: " + ex.Message);
+                return 0; 
+            }
         }
     }
 }
