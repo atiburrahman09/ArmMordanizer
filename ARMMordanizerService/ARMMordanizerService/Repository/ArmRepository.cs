@@ -44,8 +44,8 @@ namespace ARMMordanizerService
             catch (Exception ex)
             {
                 _logger.Log("AddBulkData Exception: " + ex.Message);
-
-                return 0;
+                throw ex;
+                //return 0;
             }
 
 
@@ -53,6 +53,7 @@ namespace ARMMordanizerService
 
         public int CheckTableExists(string Tablename)
         {
+            int tableExist;
             string query = "SELECT COUNT(*) FROM [FileStore] WHERE [FileName] = @TableName";
             try
             {
@@ -61,15 +62,15 @@ namespace ARMMordanizerService
                     cmd.Parameters.AddWithValue("@TableName", Tablename);
 
                     _connectionDB.con.Open();
-                    int UserExist = (int)cmd.ExecuteScalar();
+                    tableExist = (int)cmd.ExecuteScalar();
                     _connectionDB.con.Close();
                 }
-                return 1;
+                return tableExist;
             }
             catch (Exception ex)
             {
                 _logger.Log("CheckTableExists Exception: " + ex.Message);
-                return 0;
+                throw ex;
             }
 
         }
@@ -100,7 +101,7 @@ namespace ARMMordanizerService
             catch (Exception ex) 
             {
                 _logger.Log("SaveFile Exception: " + ex.Message);
-                return 0; 
+                throw ex;
             }
         }
 
@@ -120,7 +121,7 @@ namespace ARMMordanizerService
             catch (Exception ex) 
             {
                 _logger.Log("SchemeCreate Exception: " + ex.Message);
-                return 0; 
+                throw ex;
             }
         }
 
@@ -145,7 +146,7 @@ namespace ARMMordanizerService
             catch (Exception ex) 
             {
                 _logger.Log("TruncateTable Exception: " + ex.Message);
-                return 0; 
+                throw ex;
             }
         }
     }

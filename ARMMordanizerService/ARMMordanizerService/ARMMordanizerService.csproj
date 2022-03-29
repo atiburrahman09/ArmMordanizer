@@ -73,12 +73,14 @@
     <Compile Include="ArmMordanizerService.Designer.cs">
       <DependentUpon>ArmMordanizerService.cs</DependentUpon>
     </Compile>
-    <Compile Include="ArmRepository.cs" />
-    <Compile Include="ArmService.cs" />
-    <Compile Include="ConnectionDb.cs" />
+    <Compile Include="Repository\ArmRepository.cs" />
+    <Compile Include="Service\ArmService.cs" />
+    <Compile Include="ConnectionDB\ConnectionDb.cs" />
     <Compile Include="FileParser.cs" />
-    <Compile Include="IArmRepository.cs" />
-    <Compile Include="IArmService.cs" />
+    <Compile Include="Interface\IArmRepository.cs" />
+    <Compile Include="Interface\IArmService.cs" />
+    <Compile Include="Interface\ILogger.cs" />
+    <Compile Include="Service\Logger.cs" />
     <Compile Include="Model\FileStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

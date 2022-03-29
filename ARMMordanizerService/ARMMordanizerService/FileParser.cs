@@ -69,6 +69,7 @@ namespace ARMMordanizerService
                         string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
                         _iArmRepo.SchemeCreate(createTableSQL);
                         _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                        createFileStore(file);
                     }
                 }
             }
@@ -158,7 +159,7 @@ namespace ARMMordanizerService
         {
             FileStore xFile = new FileStore
             {
-                FileName = file.Key,
+                FileName = Path.GetFileNameWithoutExtension(_armFilePath + file.Key),
                 ExecutionTime = DateTime.Now,
                 Status = true
             };
