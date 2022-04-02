@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -93,7 +94,7 @@ namespace ARMMordanizerService
                     DataTable dt = GetFileData(file.Key, file.Value);
 
                     int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                    if (isExists == 1)
+                    if (isExists >0)
                     {
                         _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                         _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
@@ -152,6 +153,8 @@ namespace ARMMordanizerService
                 string moveTo = _armFileCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(file);
                 //moving file
                 File.Copy(fileToMove, moveTo);
+                //int milliseconds = 20000;
+                //Thread.Sleep(milliseconds);
             }
         }
 
@@ -262,7 +265,10 @@ namespace ARMMordanizerService
             DataTable dt = new DataTable();
             if (Path.GetExtension(key) == ".csv")
             {
-                return CSVToDataTable(_armFilePath + key);
+                //return CSVToDataTable(_armFilePath + key);
+                value.Close();
+                return CSVtoDataTable(_armFilePath + key);                
+
             }
             else
             {
@@ -279,39 +285,118 @@ namespace ARMMordanizerService
                 }
             }
         }
-        private DataTable CSVToDataTable(string path)
+        //private DataTable CSVToDataTable(string path)
+        //{
+        //    string[] rows = File.ReadAllLines(path);
+
+        //    DataTable dtData = new DataTable();
+        //    string[] rowValues = null;
+        //    DataRow dr = dtData.NewRow();
+
+        //    //Creating columns
+        //    if (rows.Length > 0)
+        //    {
+        //        foreach (string columnName in rows[0].Split(','))
+        //            dtData.Columns.Add(columnName);
+        //    }
+
+        //    //Creating row for each line.(except the first line, which contain column names)
+        //    for (int row = 1; row < rows.Length; row++)
+        //    {
+        //        rowValues = rows[row].Split(',');
+        //        dr = dtData.NewRow();
+        //        dr.ItemArray = rowValues;
+        //        dtData.Rows.Add(dr);
+        //    }
+        //    return dtData;
+        //    //DataTable dt = new DataTable();
+        //    //string csvData;
+        //    //using (StreamReader sr = new StreamReader(path))
+        //    //{
+        //    //    csvData = sr.ReadToEnd().ToString();
+        //    //    string[] row = csvData.Split('\n');
+        //    //    for (int i = 0; i < row.Count() - 1; i++)
+        //    //    {
+        //    //        string[] rowData = row[i].Split(',');
+        //    //        {
+        //    //            if (i == 0)
+        //    //            {
+        //    //                for (int j = 0; j < rowData.Count(); j++)
+        //    //                {
+        //    //                    dt.Columns.Add(rowData[j].Trim());
+        //    //                }
+        //    //            }
+        //    //            else
+        //    //            {
+        //    //                DataRow dr = dt.NewRow();
+        //    //                for (int k = 0; k < rowData.Count()-1; k++)
+        //    //                {
+        //    //                    dr[k] = rowData[k].ToString();
+        //    //                }
+        //    //                dt.Rows.Add(dr);
+        //    //            }
+        //    //        }
+        //    //    }
+
+        //    //    return dt;
+        //    //}
+        //}
+        public DataTable CSVtoDataTable(string inputpath)
         {
-            DataTable dt = new DataTable();
-            string csvData;
-            using (StreamReader sr = new StreamReader(path))
+
+            DataTable csvdt = new DataTable();
+            string Fulltext;
+            if (File.Exists(inputpath))
             {
-                csvData = sr.ReadToEnd().ToString();
-                string[] row = csvData.Split('\n');
-                for (int i = 0; i < row.Count() - 1; i++)
-                {
-                    string[] rowData = row[i].Split(',');
+                StreamReader sr = new StreamReader(inputpath);
+                
+                    while (!sr.EndOfStream)
                     {
-                        if (i == 0)
+                        Fulltext = sr.ReadToEnd().ToString();//read full content
+                        string[] rows = Fulltext.Split('\n');//split file content to get the rows
+                        for (int i = 0; i < rows.Count() - 1; i++)
                         {
-                            for (int j = 0; j < rowData.Count(); j++)
+                            var regex = new Regex("\\\"(.*?)\\\"");
+                            var output = regex.Replace(rows[i], m => m.Value.Replace(",", "\\c"));//replace commas inside quotes
+                            string[] rowValues = output.Split(',');//split rows with comma',' to get the column values
                             {
-                                dt.Columns.Add(rowData[j].Trim());
+                                if (i == 0)
+                                {
+                                    for (int j = 0; j < rowValues.Count(); j++)
+                                    {
+                                        csvdt.Columns.Add(rowValues[j].Replace("\\c", ","));//headers
+                                    }
+
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        DataRow dr = csvdt.NewRow();
+                                        for (int k = 0; k < rowValues.Count(); k++)
+                                        {
+                                            if (k >= dr.Table.Columns.Count)// more columns may exist
+                                            {
+                                                csvdt.Columns.Add("clmn" + k);
+                                                dr = csvdt.NewRow();
+                                            }
+                                            dr[k] = rowValues[k].Replace("\\c", ",");
+
+                                        }
+                                        csvdt.Rows.Add(dr);//add other rows
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("error");
+                                    }
+                                }
                             }
-                        }
-                        else
-                        {
-                            DataRow dr = dt.NewRow();
-                            for (int k = 0; k < rowData.Count(); k++)
-                            {
-                                dr[k] = rowData[k].ToString();
-                            }
-                            dt.Rows.Add(dr);
                         }
                     }
-                }
-
-                return dt;
+                    sr.Close();
+                
             }
+            return csvdt;
         }
     }
 }

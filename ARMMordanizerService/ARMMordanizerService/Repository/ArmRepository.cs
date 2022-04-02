@@ -34,6 +34,7 @@ namespace ARMMordanizerService
                 {
                     //Set the database table name.  
                     sqlBulkCopy.DestinationTableName = temTableNamePrefix + tableName;
+                    sqlBulkCopy.BulkCopyTimeout = 0;
                     _connectionDB.con.Open();
                     sqlBulkCopy.WriteToServer(dt);
                     _connectionDB.con.Close();
