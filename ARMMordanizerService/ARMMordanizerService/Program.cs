@@ -14,15 +14,15 @@ namespace ARMMordanizerService
         /// </summary>
         static void Main()
         {
-            var fileParser = new FileParser();
-            fileParser.FileParse();
-            Console.ReadLine();
-            //ServiceBase[] ServicesToRun;
-            //ServicesToRun = new ServiceBase[]
-            //{
-            //    new ArmMordanizerService()
-            //};
-            //ServiceBase.Run(ServicesToRun);
+            //var fileParser = new FileParser();
+            //fileParser.FileParse();
+            //Console.ReadLine();
+            ServiceBase[] ServicesToRun;
+            ServicesToRun = new ServiceBase[]
+            {
+                new ArmMordanizerService()
+            };
+            ServiceBase.Run(ServicesToRun);
         }
     }
 }

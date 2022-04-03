@@ -20,10 +20,10 @@ D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CopyComplete
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.exe
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.pdb
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\Aspose.Cells.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe.config
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.pdb
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\Aspose.Cells.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\EPPlus.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\System.ComponentModel.Annotations.dll
@@ -33,9 +33,9 @@ E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\Micros
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.AssemblyReference.cache
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.SuggestedBindingRedirects.cache
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.ArmMordanizerService.resources
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.ProjectInstaller.resources
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.GenerateResource.cache
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CoreCompileInputs.cache
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CopyComplete
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.exe
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.pdb
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.ProjectInstaller.resources
