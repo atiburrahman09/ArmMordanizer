@@ -81,8 +81,6 @@ namespace ARMMordanizerService
             string query = "INSERT INTO FileStore (FileName, ExecutionTime, Status) " +
                    "VALUES (@FileName, @ExecutionTime, @Status) ";
 
-            // create connection and command
-            //using (SqlConnection cn = new SqlConnection(connectionString))
             try
             {
                 using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
@@ -92,7 +90,6 @@ namespace ARMMordanizerService
                     cmd.Parameters.AddWithValue("@Status", file.Status);
 
 
-                    // open connection, execute INSERT, close connection
                     _connectionDB.con.Open();
                     cmd.ExecuteNonQuery();
                     _connectionDB.con.Close();

@@ -37,9 +37,7 @@ namespace ARMMordanizerService
             var streamList = new Dictionary<string, Stream>();
             foreach (string txtName in Directory.GetFiles(_armFilePath))
             {
-                //StreamReader x = new StreamReader(txtName);
                 streamList.Add(Path.GetFileName(txtName), new StreamReader(txtName).BaseStream);
-                //x.Close();
             }
             return streamList;
         }
@@ -117,23 +115,12 @@ namespace ARMMordanizerService
 
         private void DeleteFilesFromFolder(Dictionary<string, Stream> stringData)
         {
-            //DirectoryInfo dir = new DirectoryInfo(_armFilePath);
 
             foreach (var file in stringData)
             {
                 try
                 {
                     File.Delete(_armFilePath + file.Key);
-                    //FileSecurity fs = File.GetAccessControl(_armFilePath);
-                    //fi.IsReadOnly = false;
-                    //fi.Delete();
-
-                    ////Wait for the item to disapear (avoid 'dir not empty' error).
-                    //while (fi.Exists)
-                    //{
-                    //    System.Threading.Thread.Sleep(10);
-                    //    fi.Refresh();
-                    //}
                 }
                 catch (IOException e)
                 {
@@ -153,8 +140,6 @@ namespace ARMMordanizerService
                 string moveTo = _armFileCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(file);
                 //moving file
                 File.Copy(fileToMove, moveTo);
-                //int milliseconds = 20000;
-                //Thread.Sleep(milliseconds);
             }
         }
 
@@ -193,7 +178,7 @@ namespace ARMMordanizerService
                     result.Append("   ,");
 
                 result.AppendFormat("[{0}] {1} {2} {3}",
-                    column.ColumnName, // 0
+                    column.ColumnName.Trim(), // 0
                     GetSQLTypeAsString(column.DataType), // 1
                     column.AllowDBNull ? "NULL" : "NOT NULL", // 2
                     Environment.NewLine // 3
@@ -255,7 +240,7 @@ namespace ARMMordanizerService
                 case "DateTime": return "[datetime]";
                 case "Guid": return "[uniqueidentifier]";
                 case "Object": return "[variant]";
-                case "String": return "[nvarchar](250)";
+                case "String": return "[nvarchar](max)";
                 default: return "[nvarchar](MAX)";
             }
         }
@@ -285,62 +270,6 @@ namespace ARMMordanizerService
                 }
             }
         }
-        //private DataTable CSVToDataTable(string path)
-        //{
-        //    string[] rows = File.ReadAllLines(path);
-
-        //    DataTable dtData = new DataTable();
-        //    string[] rowValues = null;
-        //    DataRow dr = dtData.NewRow();
-
-        //    //Creating columns
-        //    if (rows.Length > 0)
-        //    {
-        //        foreach (string columnName in rows[0].Split(','))
-        //            dtData.Columns.Add(columnName);
-        //    }
-
-        //    //Creating row for each line.(except the first line, which contain column names)
-        //    for (int row = 1; row < rows.Length; row++)
-        //    {
-        //        rowValues = rows[row].Split(',');
-        //        dr = dtData.NewRow();
-        //        dr.ItemArray = rowValues;
-        //        dtData.Rows.Add(dr);
-        //    }
-        //    return dtData;
-        //    //DataTable dt = new DataTable();
-        //    //string csvData;
-        //    //using (StreamReader sr = new StreamReader(path))
-        //    //{
-        //    //    csvData = sr.ReadToEnd().ToString();
-        //    //    string[] row = csvData.Split('\n');
-        //    //    for (int i = 0; i < row.Count() - 1; i++)
-        //    //    {
-        //    //        string[] rowData = row[i].Split(',');
-        //    //        {
-        //    //            if (i == 0)
-        //    //            {
-        //    //                for (int j = 0; j < rowData.Count(); j++)
-        //    //                {
-        //    //                    dt.Columns.Add(rowData[j].Trim());
-        //    //                }
-        //    //            }
-        //    //            else
-        //    //            {
-        //    //                DataRow dr = dt.NewRow();
-        //    //                for (int k = 0; k < rowData.Count()-1; k++)
-        //    //                {
-        //    //                    dr[k] = rowData[k].ToString();
-        //    //                }
-        //    //                dt.Rows.Add(dr);
-        //    //            }
-        //    //        }
-        //    //    }
-
-        //    //    return dt;
-        //    //}
-        //}
         public DataTable CSVtoDataTable(string inputpath)
         {
 

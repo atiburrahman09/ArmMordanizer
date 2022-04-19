@@ -30,8 +30,6 @@ E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\System
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\Aspose.Cells.xml
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\EPPlus.xml
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.AssemblyReference.cache
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.SuggestedBindingRedirects.cache
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.ArmMordanizerService.resources
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.ProjectInstaller.resources
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.GenerateResource.cache
@@ -39,3 +37,4 @@ E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMor
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CopyComplete
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.exe
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.pdb
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csprojAssemblyReference.cache

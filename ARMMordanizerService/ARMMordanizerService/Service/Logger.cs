@@ -16,14 +16,7 @@ namespace ARMMordanizerService
         private static readonly Lazy<Logger> LoggerInstance=new Lazy<Logger>(()=>new Logger());
         public static Logger GetInstance => LoggerInstance.Value;
 
-        //if (_logger != null) return _logger;
-        //lock (LockInstance)
-        //{
-        //    if (_logger == null)
-        //        // ReSharper disable once PossibleMultipleWriteAccessInDoubleCheckLocking
-        //        _logger = new Logger();
-        //}
-        //return _logger;
+ 
         public void Log(string message)
         {
             lock (MyLock)
