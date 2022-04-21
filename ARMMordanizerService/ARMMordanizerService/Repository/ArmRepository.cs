@@ -31,17 +31,16 @@ namespace ARMMordanizerService
             try
             {
                 DataTable dtSource = new DataTable();
-                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con, SqlBulkCopyOptions.KeepIdentity, null) { DestinationTableName = temTableNamePrefix + tableName })
+                string sourceTableQuery = "Select top 1 * from " + temTableNamePrefix + tableName;
+                using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
                 {
-
-                    string sourceTableQuery = "Select top 1 * from " + temTableNamePrefix + tableName;
-                        using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
-                        {
-                            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                            {
-                                da.Fill(dtSource);
-                            }
-                        }                   
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dtSource);
+                    }
+                }
+                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con, SqlBulkCopyOptions.KeepIdentity, null) { DestinationTableName = temTableNamePrefix + tableName, BulkCopyTimeout = 0 })
+                {
 
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
