@@ -17,7 +17,7 @@ namespace ARMMordanizerService
     {
         private ConnectionDb _connectionDB;
         private readonly ILogger _logger;
-        private string temTableNamePrefix = "TEMP_RAW_";
+        private string temTableNamePrefix = "TMP_RAW_";
 
         public ArmRepository()
         {
@@ -30,15 +30,50 @@ namespace ARMMordanizerService
         {
             try
             {
-                using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(_connectionDB.con))
+                DataTable dtSource = new DataTable();
+                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con, SqlBulkCopyOptions.KeepIdentity, null) { DestinationTableName = temTableNamePrefix + tableName })
                 {
-                    //Set the database table name.  
-                    sqlBulkCopy.DestinationTableName = temTableNamePrefix + tableName;
-                    sqlBulkCopy.BulkCopyTimeout = 0;
+
+                    string sourceTableQuery = "Select top 1 * from " + temTableNamePrefix + tableName;
+                        using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
+                        {
+                            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                            {
+                                da.Fill(dtSource);
+                            }
+                        }                   
+
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        string destinationColumnName = dt.Columns[i].ToString();
+
+                        // check if destination column exists in source table 
+                        // Contains method is not case sensitive    
+                        if (dtSource.Columns.Contains(destinationColumnName))
+                        {
+                            //Once column matched get its index
+                            int sourceColumnIndex = dtSource.Columns.IndexOf(destinationColumnName);
+
+                            string sourceColumnName = dtSource.Columns[sourceColumnIndex].ToString();
+
+                            // give column name of source table rather then destination table 
+                            // so that it would avoid case sensitivity
+                            bulk.ColumnMappings.Add(sourceColumnName, sourceColumnName);
+                        }
+                    }
                     _connectionDB.con.Open();
-                    sqlBulkCopy.WriteToServer(dt);
+                    bulk.WriteToServer(dt);
                     _connectionDB.con.Close();
                 }
+                //using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(_connectionDB.con))
+                //{
+                //    //Set the database table name.  
+                //    sqlBulkCopy.DestinationTableName = temTableNamePrefix + tableName;
+                //    sqlBulkCopy.BulkCopyTimeout = 0;
+                //    _connectionDB.con.Open();
+                //    sqlBulkCopy.WriteToServer(dt);
+                //    _connectionDB.con.Close();
+                //}
 
                 return 1;
             }
