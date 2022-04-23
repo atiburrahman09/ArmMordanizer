@@ -37,4 +37,3 @@ E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMor
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CopyComplete
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.exe
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.pdb
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csprojAssemblyReference.cache

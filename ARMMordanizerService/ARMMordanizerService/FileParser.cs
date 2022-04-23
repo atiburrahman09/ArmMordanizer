@@ -25,10 +25,8 @@ namespace ARMMordanizerService
         private readonly IArmService _iArmService;
         private IArmRepository _iArmRepo;
         private readonly ILogger _logger;
-        private string UploadTimeInterval = "";
         private string UploadQueue = "";
         private string UploadCompletePath = "";
-        private string UploadLogFile = "";
 
         public FileParser()
         {
@@ -78,7 +76,7 @@ namespace ARMMordanizerService
                         }
                         
                     }
-                    else if (isExists == -1) continue;
+                    else if (isExists == -1) break;
                     else
                     {
                         string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix);
@@ -130,7 +128,7 @@ namespace ARMMordanizerService
                         }
 
                     }
-                    else if (isExists == -1) continue;
+                    else if (isExists == -1) break;
                     else
                     {
                         string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix);
