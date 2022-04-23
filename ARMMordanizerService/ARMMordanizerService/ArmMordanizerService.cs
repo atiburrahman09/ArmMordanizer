@@ -19,7 +19,7 @@ namespace ARMMordanizerService
 
         readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
-
+        ArmRepository _iArmRepo = new ArmRepository();
         public ArmMordanizerService()
         {
 
@@ -30,7 +30,8 @@ namespace ARMMordanizerService
 
         protected override void OnStart(string[] args)
         {
-            _logger.Log("Service started");
+           
+            _logger.Log("Service started", @"" + _iArmRepo.GetFileLocation(3) + DateTime.Now.ToString("ddMMyy"));
             InitializeComponents();
         }
         private void InitializeComponents()
@@ -48,7 +49,7 @@ namespace ARMMordanizerService
         {
             _timer.Enabled = false;
             _timer.Stop();
-            _logger.Log("Service stopped");
+            _logger.Log("Service stopped", @"" + _iArmRepo.GetFileLocation(3) + DateTime.Now.ToString("ddMMyy"));
 
         }
 

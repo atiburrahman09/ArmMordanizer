@@ -15,5 +15,6 @@ namespace ARMMordanizerService
         int SaveFile(FileStore file);
         int CheckTableExists(string Tablename);
         int TruncateTable(string TableName);
+        string GetFileLocation(int Key);
     }
 }

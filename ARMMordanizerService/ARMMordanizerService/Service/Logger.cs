@@ -4,32 +4,36 @@ using System.IO;
 
 namespace ARMMordanizerService
 {
-    public sealed class Logger:ILogger
+    public sealed class Logger : ILogger
     {
         private static readonly object MyLock = new object();
-        private readonly string _logFile = @"" +ConfigurationManager.AppSettings["logFile"];
+       
+        private readonly string _logFile = "";//@"" + ConfigurationManager.AppSettings["logFile"] + DateTime.Now.ToString("DDMMYY");
+        private static readonly Lazy<Logger> LoggerInstance = new Lazy<Logger>(() => new Logger());
+        public static Logger GetInstance => LoggerInstance.Value;
         private Logger()
         {
-            if (!File.Exists(_logFile))
-                File.Create(_logFile);
+            
+            
         }
-        private static readonly Lazy<Logger> LoggerInstance=new Lazy<Logger>(()=>new Logger());
-        public static Logger GetInstance => LoggerInstance.Value;
 
- 
-        public void Log(string message)
+
+
+        public void Log(string message,string filePath="")
         {
             lock (MyLock)
             {
+                //if (!File.Exists(filePath))
+                //    File.Create(filePath);
                 try
                 {
-                    using (var file=File.AppendText(_logFile))
+                    using (var file = File.AppendText(filePath))
                     {
-                        file.Write(message+" at "+DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt")+Environment.NewLine);
+                        file.Write(message + " at " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt") + Environment.NewLine);
                     }
 
                 }
-                catch
+                catch(Exception ex)
                 {
                     // ignored
                 }

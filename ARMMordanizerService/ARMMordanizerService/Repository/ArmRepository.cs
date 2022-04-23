@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ARMMordanizerService.Model.Keys;
 
 namespace ARMMordanizerService
 {
@@ -18,12 +19,16 @@ namespace ARMMordanizerService
         private ConnectionDb _connectionDB;
         private readonly ILogger _logger;
         private string temTableNamePrefix = "TMP_RAW_";
-
+        private string UploadTimeInterval = "";
+        private string UploadQueue = "";
+        private string UploadCompletePath = "";
+        private string UploadLogFile = "";
         public ArmRepository()
         {
             _logger = Logger.GetInstance;
 
             _connectionDB = new ConnectionDb();
+            UploadLogFile = GetFileLocation(3);
         }
 
         public int AddBulkData(DataTable dt, string tableName)
@@ -78,9 +83,9 @@ namespace ARMMordanizerService
             }
             catch (Exception ex)
             {
-                _logger.Log("AddBulkData Exception: " + ex.Message);
-                throw ex;
-                //return 0;
+                _logger.Log("AddBulkData Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                //throw ex;
+                return -1;
             }
 
 
@@ -104,8 +109,9 @@ namespace ARMMordanizerService
             }
             catch (Exception ex)
             {
-                _logger.Log("CheckTableExists Exception: " + ex.Message);
-                throw ex;
+                _logger.Log("CheckTableExists Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                //throw ex;
+                return -1;
             }
 
         }
@@ -130,10 +136,11 @@ namespace ARMMordanizerService
                 }
                 return 1;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                _logger.Log("SaveFile Exception: " + ex.Message);
-                throw ex;
+                _logger.Log("SaveFile Exception: " + ex.Message,UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                //throw ex;
+                return -1;
             }
         }
 
@@ -150,10 +157,11 @@ namespace ARMMordanizerService
                 }
                 return 1;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                _logger.Log("SchemeCreate Exception: " + ex.Message);
-                throw ex;
+                _logger.Log("SchemeCreate Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                //throw ex;
+                return -1;
             }
         }
 
@@ -175,11 +183,62 @@ namespace ARMMordanizerService
                 }
                 return 1;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                _logger.Log("TruncateTable Exception: " + ex.Message);
-                throw ex;
+                _logger.Log("TruncateTable Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                //throw ex;
+                return -1;
             }
+        }
+
+        public string GetFileLocation(int Key)
+        {
+            //use condition for key and set property 
+            string propertyName = "";
+            if (Key == 0)
+            {
+                propertyName = Enum.GetName(typeof(KeyNames), 0);
+            }
+
+            else if (Key == 1)
+            {
+                propertyName = Enum.GetName(typeof(KeyNames), 1);
+            }
+            else if (Key == 2)
+            {
+                propertyName = Enum.GetName(typeof(KeyNames), 2);
+            }
+            else if (Key == 3)
+            {
+                propertyName = Enum.GetName(typeof(KeyNames), 3);
+                
+            }
+
+
+            string location = "";
+            string sourceTableQuery = "Select PropertyValue from [SystemGlobalProperties] WHERE [PropertyName] = @propertyName";
+            using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
+            {
+                cmd.Parameters.AddWithValue("@propertyName", propertyName);
+                _connectionDB.con.Open();
+                var dr = cmd.ExecuteReader();
+                if (dr.Read()) // Read() returns TRUE if there are records to read, or FALSE if there is nothing
+                {
+                    location = dr["PropertyValue"].ToString();
+                   
+                    //string[] tempValue = location.Split('\\');
+                    ////tempValue = tempValue.Take(tempValue.Count() - 1).ToArray();
+                    //tempValue = tempValue.Reverse().Skip(1).Reverse().ToArray();
+                    //foreach (var obj in tempValue)
+                    //{
+                    //    location = obj + "\\";
+                    //}
+
+                }
+                _connectionDB.con.Close();
+
+            }
+            return location;
         }
     }
 }

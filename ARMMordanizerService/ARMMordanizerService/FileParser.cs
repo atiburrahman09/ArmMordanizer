@@ -57,18 +57,34 @@ namespace ARMMordanizerService
                     DataTable dt = GetFileData(file.Key, file.Value);
 
                     int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                    if (isExists == 1)
+                    if (isExists > 0)
                     {
-                        _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                        _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                        createFileStore(file);
+                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                        if(result == 1)
+                        {
+                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                            if (result == 1)
+                            {
+                                createFileStore(file);
+                            }
+
+                        }
+                        
                     }
+                    else if (isExists == -1) continue;
                     else
                     {
                         string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
-                        _iArmRepo.SchemeCreate(createTableSQL);
-                        _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                        createFileStore(file);
+                        var result = _iArmRepo.SchemeCreate(createTableSQL);
+                        if(result == 1)
+                        {
+                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                            if (result == 1)
+                            {
+                                createFileStore(file);
+                            }
+                        }
+                        
                     }
                 }
             }
@@ -94,16 +110,32 @@ namespace ARMMordanizerService
                     int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
                     if (isExists > 0)
                     {
-                        _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                        _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                        createFileStore(file);
+                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                        if (result == 1)
+                        {
+                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                            if (result == 1)
+                            {
+                                createFileStore(file);
+                            }
+
+                        }
+
                     }
+                    else if (isExists == -1) continue;
                     else
                     {
                         string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
-                        _iArmRepo.SchemeCreate(createTableSQL);
-                        _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
-                        createFileStore(file);
+                        var result = _iArmRepo.SchemeCreate(createTableSQL);
+                        if (result == 1)
+                        {
+                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                            if (result == 1)
+                            {
+                                createFileStore(file);
+                            }
+                        }
+
                     }
                 }
             }
@@ -137,7 +169,7 @@ namespace ARMMordanizerService
             foreach (string file in fileList)
             {
                 string fileToMove = _armFilePath + Path.GetFileName(file);
-                string moveTo = _armFileCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(file);
+                string moveTo = _armFileCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("yyddMMyyHHmmssfff") + Path.GetExtension(file);
                 //moving file
                 File.Copy(fileToMove, moveTo);
             }

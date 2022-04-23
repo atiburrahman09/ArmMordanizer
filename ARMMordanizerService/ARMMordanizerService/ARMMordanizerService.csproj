@@ -75,6 +75,7 @@
     <Compile Include="ArmMordanizerService.Designer.cs">
       <DependentUpon>ArmMordanizerService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Keys.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
