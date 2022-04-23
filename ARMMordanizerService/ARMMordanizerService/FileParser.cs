@@ -47,7 +47,17 @@ namespace ARMMordanizerService
         public void FileParse(object sender, System.Timers.ElapsedEventArgs e)
         {
             UploadQueue = _iArmRepo.GetFileLocation(1);
+            if (!UploadQueue.EndsWith("\\"))
+            {
+                UploadQueue = UploadQueue + "\\";
+            }
+
             UploadCompletePath = _iArmRepo.GetFileLocation(2);
+            if (!UploadCompletePath.EndsWith("\\"))
+            {
+                UploadCompletePath = UploadQueue + "\\";
+            }
+
 
             if (!Monitor.TryEnter(Mylock, 0)) return;
 
@@ -65,7 +75,7 @@ namespace ARMMordanizerService
                     if (isExists > 0)
                     {
                         var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
-                        if(result == 1)
+                        if (result == 1)
                         {
                             result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                             if (result == 1)
@@ -74,14 +84,14 @@ namespace ARMMordanizerService
                             }
 
                         }
-                        
+
                     }
                     else if (isExists == -1) break;
                     else
                     {
                         string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix);
                         var result = _iArmRepo.SchemeCreate(createTableSQL);
-                        if(result == 1)
+                        if (result == 1)
                         {
                             _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                             if (result == 1)
@@ -89,7 +99,7 @@ namespace ARMMordanizerService
                                 createFileStore(file);
                             }
                         }
-                        
+
                     }
                 }
             }
@@ -102,7 +112,16 @@ namespace ARMMordanizerService
         {
             //if (!Monitor.TryEnter(Mylock, 0)) return;
             UploadQueue = _iArmRepo.GetFileLocation(1);
+            if (!UploadQueue.EndsWith("\\"))
+            {
+                UploadQueue = UploadQueue + "\\";
+            }
+
             UploadCompletePath = _iArmRepo.GetFileLocation(2);
+            if (!UploadCompletePath.EndsWith("\\"))
+            {
+                UploadCompletePath = UploadQueue + "\\";
+            }
             var stringData = FileRead();
 
             foreach (var file in stringData)
@@ -172,10 +191,13 @@ namespace ARMMordanizerService
         {
 
             string[] fileList = System.IO.Directory.GetFiles(UploadQueue);
+            string moveTo = "";
             foreach (string file in fileList)
             {
+
                 string fileToMove = UploadQueue + Path.GetFileName(file);
-                string moveTo = UploadCompletePath +"\\" + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("ddMMyy") + Path.GetExtension(file);
+                moveTo = UploadCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("ddMMyy") + Path.GetExtension(file);
+
                 //moving file
                 File.Copy(fileToMove, moveTo);
             }
