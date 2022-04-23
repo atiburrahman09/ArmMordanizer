@@ -36,7 +36,8 @@ namespace ARMMordanizerService
         }
         private void InitializeComponents()
         {
-            var timerInterVal = int.Parse(ConfigurationManager.AppSettings["timeInterVal"]);
+
+            var timerInterVal = Convert.ToInt32(_iArmRepo.GetFileLocation(3));// int.Parse(ConfigurationManager.AppSettings["timeInterVal"]);
             _timer.AutoReset = true;
             _timer.Interval = timerInterVal;
             _timer.Enabled = true;
