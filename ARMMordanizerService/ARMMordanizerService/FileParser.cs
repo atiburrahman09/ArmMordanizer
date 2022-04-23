@@ -18,13 +18,17 @@ namespace ARMMordanizerService
 {
     public class FileParser
     {
-        private readonly string _armFilePath = @"" + ConfigurationManager.AppSettings["armFilePath"];
-        private readonly string _armFileCompletePath = @"" + ConfigurationManager.AppSettings["armFileCompletePath"];
+        //private readonly string UploadQueue = @"" + ConfigurationManager.AppSettings["armFilePath"];
+        //private readonly string UploadCompletePath = @"" + ConfigurationManager.AppSettings["armFileCompletePath"];
         private string temTableNamePrefix = "TMP_RAW_";
 
         private readonly IArmService _iArmService;
         private IArmRepository _iArmRepo;
         private readonly ILogger _logger;
+        private string UploadTimeInterval = "";
+        private string UploadQueue = "";
+        private string UploadCompletePath = "";
+        private string UploadLogFile = "";
 
         public FileParser()
         {
@@ -35,7 +39,7 @@ namespace ARMMordanizerService
         public Dictionary<string, Stream> FileRead()
         {
             var streamList = new Dictionary<string, Stream>();
-            foreach (string txtName in Directory.GetFiles(_armFilePath))
+            foreach (string txtName in Directory.GetFiles(UploadQueue))
             {
                 streamList.Add(Path.GetFileName(txtName), new StreamReader(txtName).BaseStream);
             }
@@ -44,25 +48,28 @@ namespace ARMMordanizerService
         private static readonly object Mylock = new object();
         public void FileParse(object sender, System.Timers.ElapsedEventArgs e)
         {
+            UploadQueue = _iArmRepo.GetFileLocation(1);
+            UploadCompletePath = _iArmRepo.GetFileLocation(2);
+
             if (!Monitor.TryEnter(Mylock, 0)) return;
 
             var stringData = FileRead();
 
             foreach (var file in stringData)
             {
-                string path = _armFilePath + file.Key;
+                string path = UploadQueue + file.Key;
                 string isValid = _iArmService.IsValidFile(path);
                 if (isValid == "" || isValid == string.Empty)
                 {
                     DataTable dt = GetFileData(file.Key, file.Value);
 
-                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                     if (isExists > 0)
                     {
-                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                         if(result == 1)
                         {
-                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                             if (result == 1)
                             {
                                 createFileStore(file);
@@ -74,11 +81,11 @@ namespace ARMMordanizerService
                     else if (isExists == -1) continue;
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix);
                         var result = _iArmRepo.SchemeCreate(createTableSQL);
                         if(result == 1)
                         {
-                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                             if (result == 1)
                             {
                                 createFileStore(file);
@@ -96,24 +103,25 @@ namespace ARMMordanizerService
         public void FileParse()
         {
             //if (!Monitor.TryEnter(Mylock, 0)) return;
-
+            UploadQueue = _iArmRepo.GetFileLocation(1);
+            UploadCompletePath = _iArmRepo.GetFileLocation(2);
             var stringData = FileRead();
 
             foreach (var file in stringData)
             {
-                string path = _armFilePath + file.Key;
+                string path = UploadQueue + file.Key;
                 string isValid = _iArmService.IsValidFile(path);
                 if (isValid == "" || isValid == string.Empty)
                 {
                     DataTable dt = GetFileData(file.Key, file.Value);
 
-                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                     if (isExists > 0)
                     {
-                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                         if (result == 1)
                         {
-                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                             if (result == 1)
                             {
                                 createFileStore(file);
@@ -125,11 +133,11 @@ namespace ARMMordanizerService
                     else if (isExists == -1) continue;
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key), temTableNamePrefix);
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix);
                         var result = _iArmRepo.SchemeCreate(createTableSQL);
                         if (result == 1)
                         {
-                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(_armFilePath + file.Key));
+                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                             if (result == 1)
                             {
                                 createFileStore(file);
@@ -152,7 +160,7 @@ namespace ARMMordanizerService
             {
                 try
                 {
-                    File.Delete(_armFilePath + file.Key);
+                    File.Delete(UploadQueue + file.Key);
                 }
                 catch (IOException e)
                 {
@@ -165,11 +173,11 @@ namespace ARMMordanizerService
         private void RemoveFilesFromFolder(Dictionary<string, Stream> stringData)
         {
 
-            string[] fileList = System.IO.Directory.GetFiles(_armFilePath);
+            string[] fileList = System.IO.Directory.GetFiles(UploadQueue);
             foreach (string file in fileList)
             {
-                string fileToMove = _armFilePath + Path.GetFileName(file);
-                string moveTo = _armFileCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("yyddMMyyHHmmssfff") + Path.GetExtension(file);
+                string fileToMove = UploadQueue + Path.GetFileName(file);
+                string moveTo = UploadCompletePath +"\\" + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("ddMMyy") + Path.GetExtension(file);
                 //moving file
                 File.Copy(fileToMove, moveTo);
             }
@@ -179,7 +187,7 @@ namespace ARMMordanizerService
         {
             FileStore xFile = new FileStore
             {
-                FileName = Path.GetFileNameWithoutExtension(_armFilePath + file.Key),
+                FileName = Path.GetFileNameWithoutExtension(UploadQueue + file.Key),
                 ExecutionTime = DateTime.Now,
                 Status = true
             };
@@ -282,9 +290,9 @@ namespace ARMMordanizerService
             DataTable dt = new DataTable();
             if (Path.GetExtension(key) == ".csv")
             {
-                //return CSVToDataTable(_armFilePath + key);
+                //return CSVToDataTable(UploadQueue + key);
 
-                dt = CSVtoDataTable(_armFilePath + key);
+                dt = CSVtoDataTable(UploadQueue + key);
                 value.Close();
                 return dt;
             }
