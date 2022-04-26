@@ -18,7 +18,8 @@ namespace ARMMordanizerService
     {
         private ConnectionDb _connectionDB;
         private readonly ILogger _logger;
-        private string temTableNamePrefix = "TMP_RAW_";
+        private string temTableNamePrefix1 = "TMP_RAW_";
+        private string temTableNamePrefix2 = "TMP_";
         private string UploadTimeInterval = "";
         private string UploadQueue = "";
         private string UploadCompletePath = "";
@@ -36,7 +37,7 @@ namespace ARMMordanizerService
             try
             {
                 DataTable dtSource = new DataTable();
-                string sourceTableQuery = "Select top 1 * from " + temTableNamePrefix + tableName;
+                string sourceTableQuery = "Select top 1 * from " + temTableNamePrefix1 + tableName;
                 using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
                 {
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -44,7 +45,7 @@ namespace ARMMordanizerService
                         da.Fill(dtSource);
                     }
                 }
-                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con, SqlBulkCopyOptions.KeepIdentity, null) { DestinationTableName = temTableNamePrefix + tableName, BulkCopyTimeout = 0 })
+                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con, SqlBulkCopyOptions.KeepIdentity, null) { DestinationTableName = temTableNamePrefix1 + tableName, BulkCopyTimeout = 0 })
                 {
 
                     for (int i = 0; i < dt.Columns.Count; i++)
@@ -165,11 +166,10 @@ namespace ARMMordanizerService
             }
         }
 
-        public int TruncateTable(string TableName)
+        public int TruncateTable(string TableName,string tablePrefix)
         {
+            string tableName = tablePrefix + TableName;
             //string query = "truncate table @TableName";
-            string tableName = temTableNamePrefix + TableName;
-
             string strTruncateTable = "TRUNCATE TABLE " + tableName;
 
 
@@ -239,6 +239,57 @@ namespace ARMMordanizerService
 
             }
             return location;
+        }
+
+        public string GetSqlFromMappingConfig(string key)
+        {
+            try
+            {
+
+                string sql = "";
+                string query = "Select SQL from [MapperConfiguration] WHERE [SourceTable] = @sourceTable AND IsActive = 1";
+                using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
+                {
+                    cmd.Parameters.AddWithValue("@sourceTable", "dbo."+ temTableNamePrefix1 + key);
+                    _connectionDB.con.Open();
+                    var dr = cmd.ExecuteReader();
+                    if (dr.Read()) // Read() returns TRUE if there are records to read, or FALSE if there is nothing
+                    {
+                        sql = dr["SQL"].ToString();
+
+                    }
+                    _connectionDB.con.Close();
+
+                }
+                return sql;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log("GetSqlFromMappingConfig Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+
+                return "";
+            }
+            
+        }
+
+        public int InsertDestinationTable(string insertSql)
+        {
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(insertSql, _connectionDB.con))
+                {
+                    _connectionDB.con.Open();
+                    cmd.ExecuteNonQuery();
+                    _connectionDB.con.Close();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log("InsertDestinationTable Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                //throw ex;
+                return -1;
+            }
         }
     }
 }

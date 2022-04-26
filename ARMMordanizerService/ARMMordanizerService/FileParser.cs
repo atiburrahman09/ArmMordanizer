@@ -20,13 +20,14 @@ namespace ARMMordanizerService
     {
         //private readonly string UploadQueue = @"" + ConfigurationManager.AppSettings["armFilePath"];
         //private readonly string UploadCompletePath = @"" + ConfigurationManager.AppSettings["armFileCompletePath"];
-        private string temTableNamePrefix = "TMP_RAW_";
 
         private readonly IArmService _iArmService;
         private IArmRepository _iArmRepo;
         private readonly ILogger _logger;
         private string UploadQueue = "";
         private string UploadCompletePath = "";
+        private string temTableNamePrefix1 = "TMP_RAW_";
+        private string temTableNamePrefix2 = "TMP_";
 
         public FileParser()
         {
@@ -57,10 +58,6 @@ namespace ARMMordanizerService
             {
                 UploadCompletePath = UploadQueue + "\\";
             }
-
-
-            if (!Monitor.TryEnter(Mylock, 0)) return;
-
             var stringData = FileRead();
 
             foreach (var file in stringData)
@@ -74,13 +71,19 @@ namespace ARMMordanizerService
                     int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                     if (isExists > 0)
                     {
-                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix1);
                         if (result == 1)
                         {
                             result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                             if (result == 1)
                             {
                                 createFileStore(file);
+                                string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                                if (!string.IsNullOrEmpty(insertSql))
+                                {
+                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
+                                    result = _iArmRepo.InsertDestinationTable(insertSql);
+                                }
                             }
 
                         }
@@ -89,7 +92,7 @@ namespace ARMMordanizerService
                     else if (isExists == -1) break;
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix);
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix1);
                         var result = _iArmRepo.SchemeCreate(createTableSQL);
                         if (result == 1)
                         {
@@ -97,6 +100,12 @@ namespace ARMMordanizerService
                             if (result == 1)
                             {
                                 createFileStore(file);
+                                string insertSql = GetSQLFromMapping(file.Key);
+                                if (!string.IsNullOrEmpty(insertSql))
+                                {
+                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
+                                    result = _iArmRepo.InsertDestinationTable(insertSql);
+                                }
                             }
                         }
 
@@ -108,6 +117,15 @@ namespace ARMMordanizerService
             DeleteFilesFromFolder(stringData);
 
         }
+
+        private string GetSQLFromMapping(string key)
+        {
+            string sql = "";
+            sql = _iArmRepo.GetSqlFromMappingConfig(key);
+            sql = sql.Replace("\r", " ").Replace("\n", " ");
+            return sql;
+        }
+
         public void FileParse()
         {
             //if (!Monitor.TryEnter(Mylock, 0)) return;
@@ -120,7 +138,7 @@ namespace ARMMordanizerService
             UploadCompletePath = _iArmRepo.GetFileLocation(2);
             if (!UploadCompletePath.EndsWith("\\"))
             {
-                UploadCompletePath = UploadQueue + "\\";
+                UploadCompletePath = UploadCompletePath + "\\";
             }
             var stringData = FileRead();
 
@@ -135,13 +153,19 @@ namespace ARMMordanizerService
                     int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                     if (isExists > 0)
                     {
-                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key),temTableNamePrefix1);
                         if (result == 1)
                         {
                             result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
                             if (result == 1)
                             {
                                 createFileStore(file);
+                                string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                                if (!string.IsNullOrEmpty(insertSql))
+                                {
+                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key),temTableNamePrefix2);
+                                    result = _iArmRepo.InsertDestinationTable(insertSql);
+                                }
                             }
 
                         }
@@ -150,7 +174,7 @@ namespace ARMMordanizerService
                     else if (isExists == -1) break;
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix);
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix1);
                         var result = _iArmRepo.SchemeCreate(createTableSQL);
                         if (result == 1)
                         {
@@ -158,6 +182,12 @@ namespace ARMMordanizerService
                             if (result == 1)
                             {
                                 createFileStore(file);
+                                string insertSql = GetSQLFromMapping(file.Key);
+                                if (!string.IsNullOrEmpty(insertSql))
+                                {
+                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
+                                    result = _iArmRepo.InsertDestinationTable(insertSql);
+                                }
                             }
                         }
 
@@ -199,7 +229,7 @@ namespace ARMMordanizerService
                 moveTo = UploadCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("ddMMyy") + Path.GetExtension(file);
 
                 //moving file
-                File.Copy(fileToMove, moveTo);
+                File.Copy(fileToMove, moveTo,true);
             }
         }
 

@@ -14,7 +14,9 @@ namespace ARMMordanizerService
         int AddBulkData(DataTable dt,string tableName);
         int SaveFile(FileStore file);
         int CheckTableExists(string Tablename);
-        int TruncateTable(string TableName);
+        int TruncateTable(string TableName,string tablePrefix);
         string GetFileLocation(int Key);
+        string GetSqlFromMappingConfig(string key);
+        int InsertDestinationTable(string insertSql);
     }
 }
