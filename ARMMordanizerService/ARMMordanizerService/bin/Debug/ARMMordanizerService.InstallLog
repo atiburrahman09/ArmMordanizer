@@ -197,3 +197,12 @@ Affected parameters are:
    logtoconsole = 
    logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog
    assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+Removing EventLog source ARMMordanizer.
+An exception occurred during the uninstallation of the System.Diagnostics.EventLogInstaller installer.
+System.Security.SecurityException: Requested registry access is not allowed.
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.

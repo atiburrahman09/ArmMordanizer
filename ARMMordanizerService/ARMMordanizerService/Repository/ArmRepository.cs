@@ -20,6 +20,7 @@ namespace ARMMordanizerService
         private readonly ILogger _logger;
         private string temTableNamePrefix1 = "TMP_RAW_";
         private string temTableNamePrefix2 = "TMP_";
+        private string schemaName = "dbo.";
         private string UploadTimeInterval = "";
         private string UploadQueue = "";
         private string UploadCompletePath = "";
@@ -45,7 +46,7 @@ namespace ARMMordanizerService
                         da.Fill(dtSource);
                     }
                 }
-                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con, SqlBulkCopyOptions.KeepIdentity, null) { DestinationTableName = temTableNamePrefix1 + tableName, BulkCopyTimeout = 0 })
+                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con) { DestinationTableName = temTableNamePrefix1 + tableName, BulkCopyTimeout = 0 })
                 {
 
                     for (int i = 0; i < dt.Columns.Count; i++)
@@ -95,12 +96,13 @@ namespace ARMMordanizerService
         public int CheckTableExists(string Tablename)
         {
             int tableExist;
-            string query = "SELECT COUNT(*) FROM [FileStore] WHERE [FileName] = @TableName";
+            //string query = "SELECT COUNT(*) FROM [FileStore] WHERE [FileName] = @TableName";
+            string query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @TableName";
             try
             {
                 using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
                 {
-                    cmd.Parameters.AddWithValue("@TableName", Tablename);
+                    cmd.Parameters.AddWithValue("@TableName", temTableNamePrefix1 + Tablename);
 
                     _connectionDB.con.Open();
                     tableExist = (int)cmd.ExecuteScalar();
@@ -225,14 +227,6 @@ namespace ARMMordanizerService
                 if (dr.Read()) // Read() returns TRUE if there are records to read, or FALSE if there is nothing
                 {
                     location = dr["PropertyValue"].ToString();
-                   
-                    //string[] tempValue = location.Split('\\');
-                    ////tempValue = tempValue.Take(tempValue.Count() - 1).ToArray();
-                    //tempValue = tempValue.Reverse().Skip(1).Reverse().ToArray();
-                    //foreach (var obj in tempValue)
-                    //{
-                    //    location = obj + "\\";
-                    //}
 
                 }
                 _connectionDB.con.Close();
@@ -276,6 +270,7 @@ namespace ARMMordanizerService
         {
             try
             {
+                
                 using (SqlCommand cmd = new SqlCommand(insertSql, _connectionDB.con))
                 {
                     _connectionDB.con.Open();

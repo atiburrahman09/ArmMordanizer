@@ -1,4 +1,6 @@
-﻿namespace ARMMordanizerService
+﻿using System;
+
+namespace ARMMordanizerService
 {
     partial class ArmMordanizerService
     {
@@ -28,17 +30,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer = new System.Windows.Forms.Timer(this.components);
             // 
             // ArmMordanizerService
             // 
-            this.ServiceName = "Service1";
+            this.CanPauseAndContinue = true;
+            this.ServiceName = "ARMMordanizer";
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Timer timer;
+        //private System.Windows.Forms.Timer timer;
     }
 }

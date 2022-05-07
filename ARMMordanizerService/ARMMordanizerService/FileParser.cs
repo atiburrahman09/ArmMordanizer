@@ -28,6 +28,7 @@ namespace ARMMordanizerService
         private string UploadCompletePath = "";
         private string temTableNamePrefix1 = "TMP_RAW_";
         private string temTableNamePrefix2 = "TMP_";
+        private string UploadLogFile = "";
 
         public FileParser()
         {
@@ -47,17 +48,22 @@ namespace ARMMordanizerService
         private static readonly object Mylock = new object();
         public void FileParse(object sender, System.Timers.ElapsedEventArgs e)
         {
+            //if (!Monitor.TryEnter(Mylock, 0)) return;
             UploadQueue = _iArmRepo.GetFileLocation(1);
             if (!UploadQueue.EndsWith("\\"))
             {
                 UploadQueue = UploadQueue + "\\";
             }
-
+            if (!Directory.Exists(UploadQueue))
+                Directory.CreateDirectory(UploadQueue);
             UploadCompletePath = _iArmRepo.GetFileLocation(2);
             if (!UploadCompletePath.EndsWith("\\"))
             {
-                UploadCompletePath = UploadQueue + "\\";
+                UploadCompletePath = UploadCompletePath + "\\";
             }
+            if (!Directory.Exists(UploadCompletePath))
+                Directory.CreateDirectory(UploadCompletePath);
+
             var stringData = FileRead();
 
             foreach (var file in stringData)
@@ -82,7 +88,10 @@ namespace ARMMordanizerService
                                 if (!string.IsNullOrEmpty(insertSql))
                                 {
                                     _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
-                                    result = _iArmRepo.InsertDestinationTable(insertSql);
+                                    if (result == 1)
+                                    {
+                                        result = _iArmRepo.InsertDestinationTable(insertSql);
+                                    }
                                 }
                             }
 
@@ -104,7 +113,10 @@ namespace ARMMordanizerService
                                 if (!string.IsNullOrEmpty(insertSql))
                                 {
                                     _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
-                                    result = _iArmRepo.InsertDestinationTable(insertSql);
+                                    if (result == 1)
+                                    {
+                                        result = _iArmRepo.InsertDestinationTable(insertSql);
+                                    }
                                 }
                             }
                         }
@@ -134,12 +146,16 @@ namespace ARMMordanizerService
             {
                 UploadQueue = UploadQueue + "\\";
             }
-
+            if (!Directory.Exists(UploadQueue))
+                Directory.CreateDirectory(UploadQueue);
             UploadCompletePath = _iArmRepo.GetFileLocation(2);
             if (!UploadCompletePath.EndsWith("\\"))
             {
                 UploadCompletePath = UploadCompletePath + "\\";
             }
+            if (!Directory.Exists(UploadCompletePath))
+                Directory.CreateDirectory(UploadCompletePath);
+
             var stringData = FileRead();
 
             foreach (var file in stringData)
@@ -164,7 +180,10 @@ namespace ARMMordanizerService
                                 if (!string.IsNullOrEmpty(insertSql))
                                 {
                                     _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key),temTableNamePrefix2);
-                                    result = _iArmRepo.InsertDestinationTable(insertSql);
+                                    if (result == 1)
+                                    {
+                                        result = _iArmRepo.InsertDestinationTable(insertSql);
+                                    }
                                 }
                             }
 
@@ -186,7 +205,10 @@ namespace ARMMordanizerService
                                 if (!string.IsNullOrEmpty(insertSql))
                                 {
                                     _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
-                                    result = _iArmRepo.InsertDestinationTable(insertSql);
+                                    if (result == 1)
+                                    {
+                                        result = _iArmRepo.InsertDestinationTable(insertSql);
+                                    }
                                 }
                             }
                         }

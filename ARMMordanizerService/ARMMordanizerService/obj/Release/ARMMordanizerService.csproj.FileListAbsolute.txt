@@ -1,15 +1,13 @@
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\Aspose.Cells.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe.config
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.pdb
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\Aspose.Cells.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\EPPlus.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\Microsoft.IO.RecyclableMemoryStream.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\System.ComponentModel.Annotations.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\Aspose.Cells.xml
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\EPPlus.xml
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\Microsoft.IO.RecyclableMemoryStream.xml
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.csproj.AssemblyReference.cache
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.csproj.SuggestedBindingRedirects.cache
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.ArmMordanizerService.resources
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.ProjectInstaller.resources
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.csproj.GenerateResource.cache

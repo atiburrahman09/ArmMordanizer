@@ -116,3 +116,49 @@ See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerServ
 The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog.
 
 The uninstall has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog.
+
+The uninstall has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog.
+
+The uninstall has completed.
+
+Running a transacted installation.
+
+Beginning the Install phase of the installation.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog.
+
+An exception occurred during the Install phase.
+System.InvalidOperationException: Cannot open Service Control Manager on computer '.'. This operation might require other privileges.
+The inner exception System.ComponentModel.Win32Exception was thrown with the following error message: Access is denied.
+
+The Rollback phase of the installation is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog.
+
+The Rollback phase completed successfully.
+
+The transacted install has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog.
+
+The uninstall has completed.
+
+
+The uninstall is beginning.
+See the contents of the log file for the E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe assembly's progress.
+The file is located at E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog.
+
+The uninstall has completed.
