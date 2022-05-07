@@ -218,21 +218,30 @@ namespace ARMMordanizerService
 
 
             string location = "";
-            string sourceTableQuery = "Select PropertyValue from [SystemGlobalProperties] WHERE [PropertyName] = @propertyName";
-            using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
-            {
-                cmd.Parameters.AddWithValue("@propertyName", propertyName);
-                _connectionDB.con.Open();
-                var dr = cmd.ExecuteReader();
-                if (dr.Read()) // Read() returns TRUE if there are records to read, or FALSE if there is nothing
+            string sourceTableQuery = "Select PropertyValue from [SystemGlobalProperties] WHERE [PropertyName] b= @propertyName";
+            try {
+                using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
                 {
-                    location = dr["PropertyValue"].ToString();
+                    cmd.Parameters.AddWithValue("@propertyName", propertyName);
+                    _connectionDB.con.Open();
+                    var dr = cmd.ExecuteReader();
+                    if (dr.Read()) // Read() returns TRUE if there are records to read, or FALSE if there is nothing
+                    {
+                        location = dr["PropertyValue"].ToString();
+
+                    }
+                    _connectionDB.con.Close();
 
                 }
-                _connectionDB.con.Close();
-
+                return location;
             }
-            return location;
+            catch (Exception ex)
+            {
+                _logger.Log("GetFileLocation Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+
+                throw ex;
+            }
+
         }
 
         public string GetSqlFromMappingConfig(string key)
