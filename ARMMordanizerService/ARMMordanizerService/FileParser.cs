@@ -85,7 +85,7 @@ namespace ARMMordanizerService
                             {
                                 createFileStore(file);
                                 string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
-                                if (!string.IsNullOrEmpty(insertSql))
+                                if (insertSql != "")
                                 {
                                     _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
                                     if (result == 1)
@@ -110,7 +110,7 @@ namespace ARMMordanizerService
                             {
                                 createFileStore(file);
                                 string insertSql = GetSQLFromMapping(file.Key);
-                                if (!string.IsNullOrEmpty(insertSql))
+                                if (insertSql != "")
                                 {
                                     _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
                                     if (result == 1)
@@ -177,7 +177,7 @@ namespace ARMMordanizerService
                             {
                                 createFileStore(file);
                                 string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
-                                if (!string.IsNullOrEmpty(insertSql))
+                                if (insertSql != "")
                                 {
                                     _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key),temTableNamePrefix2);
                                     if (result == 1)
@@ -202,7 +202,7 @@ namespace ARMMordanizerService
                             {
                                 createFileStore(file);
                                 string insertSql = GetSQLFromMapping(file.Key);
-                                if (!string.IsNullOrEmpty(insertSql))
+                                if (insertSql != "")
                                 {
                                     _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
                                     if (result == 1)
