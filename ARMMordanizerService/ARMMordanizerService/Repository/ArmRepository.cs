@@ -218,7 +218,7 @@ namespace ARMMordanizerService
 
 
             string location = "";
-            string sourceTableQuery = "Select PropertyValue from [SystemGlobalProperties] WHERE [PropertyName] b= @propertyName";
+            string sourceTableQuery = "Select PropertyValue from [SystemGlobalProperties] WHERE [PropertyName] = @propertyName";
             try {
                 using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
                 {

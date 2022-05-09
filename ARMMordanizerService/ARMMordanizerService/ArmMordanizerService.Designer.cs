@@ -34,7 +34,7 @@ namespace ARMMordanizerService
             // ArmMordanizerService
             // 
             this.CanPauseAndContinue = true;
-            this.ServiceName = "ARMMordanizer";
+            this.ServiceName = "ARMService";
 
         }
 

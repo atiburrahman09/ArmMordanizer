@@ -692,3 +692,172 @@ Affected parameters are:
    logtoconsole = 
    logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
    assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMMordanizer.
+Service ARMMordanizer is being removed from the system...
+Service ARMMordanizer was successfully removed from the system.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARMMordanizer...
+Service ARMMordanizer has been successfully installed.
+Creating EventLog source ARMMordanizer in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMMordanizerService.
+Warning: The source ARMMordanizerService is not registered on the local machine.
+Service ARMMordanizerService is being removed from the system...
+An exception occurred during the uninstallation of the System.ServiceProcess.ServiceInstaller installer.
+System.ComponentModel.Win32Exception: The specified service does not exist as an installed service
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMMordanizerService.
+Warning: The source ARMMordanizerService is not registered on the local machine.
+Service ARMMordanizerService is being removed from the system...
+An exception occurred during the uninstallation of the System.ServiceProcess.ServiceInstaller installer.
+System.ComponentModel.Win32Exception: The specified service does not exist as an installed service
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARMMordanizerService...
+Service ARMMordanizerService has been successfully installed.
+Creating EventLog source ARMMordanizerService in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMMordanizerService.
+Service ARMMordanizerService is being removed from the system...
+Service ARMMordanizerService was successfully removed from the system.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARMMordanizerService...
+Service ARMMordanizerService has been successfully installed.
+Creating EventLog source ARMMordanizerService in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMMordanizerService.
+Service ARMMordanizerService is being removed from the system...
+Service ARMMordanizerService was successfully removed from the system.
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMMordanizer.
+Service ARMMordanizer is being removed from the system...
+Service ARMMordanizer was successfully removed from the system.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARMService...
+Service ARMService has been successfully installed.
+Creating EventLog source ARMService in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMService.
+Service ARMService is being removed from the system...
+Service ARMService was successfully removed from the system.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARMService1...
+Service ARMService1 has been successfully installed.
+Creating EventLog source ARMService1 in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMService1.
+Service ARMService1 is being removed from the system...
+Service ARMService1 was successfully removed from the system.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARMService...
+Service ARMService has been successfully installed.
+Creating EventLog source ARMService in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMService.
+Service ARMService is being removed from the system...
+Service ARMService was successfully removed from the system.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARMService...
+Service ARMService has been successfully installed.
+Creating EventLog source ARMService in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe

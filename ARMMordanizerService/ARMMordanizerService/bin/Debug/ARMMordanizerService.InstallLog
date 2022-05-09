@@ -206,3 +206,48 @@ Removing EventLog source ARMMordanizer.
 An exception occurred during the uninstallation of the System.Diagnostics.EventLogInstaller installer.
 System.Security.SecurityException: Requested registry access is not allowed.
 An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+Installing service ARMService1...
+Creating EventLog source ARMService1 in log Application...
+Rolling back assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+Restoring event log to previous state for source ARMService1.
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+Removing EventLog source ARMService1.
+Warning: The source ARMService1 is not registered on the local machine.
+Service ARMService1 is being removed from the system...
+An exception occurred during the uninstallation of the System.ServiceProcess.ServiceInstaller installer.
+System.ComponentModel.Win32Exception: The specified service does not exist as an installed service
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+Installing service ARMService1...
+Service ARMService1 has been successfully installed.
+Creating EventLog source ARMService1 in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\ARMMordanizerService.exe
+Removing EventLog source ARMService1.
+Service ARMService1 is being removed from the system...
+Service ARMService1 was successfully removed from the system.

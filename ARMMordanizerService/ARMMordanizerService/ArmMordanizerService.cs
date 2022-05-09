@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
@@ -26,10 +27,27 @@ namespace ARMMordanizerService
         ArmRepository _iArmRepo = new ArmRepository();
         public ArmMordanizerService()
         {
+
             UploadLogFile = _iArmRepo.GetFileLocation(3);
+            _logger = Logger.GetInstance;
+            CreateLogDirectory(UploadLogFile);
 
             //InitializeComponents();
-            _logger = Logger.GetInstance;
+            
+
+        }
+
+        private void CreateLogDirectory(string uploadLogFile)
+        {
+
+            int index = uploadLogFile.LastIndexOf("Logs") ;
+            if(index > 0)
+            {
+                uploadLogFile = uploadLogFile.Substring(0, index+5);
+            }
+            if (!Directory.Exists(uploadLogFile))
+                Directory.CreateDirectory(uploadLogFile);
+            _logger.Log("Creating Log Directory", @"" + UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
 
         }
 
