@@ -15,6 +15,10 @@ namespace ARMMordanizerService
         public ConnectionDb()
         {
             con=new SqlConnection(_connectionString);
+            if(con.State == System.Data.ConnectionState.Open)
+            {
+                con.Close();
+            }
         }
     }
 }
