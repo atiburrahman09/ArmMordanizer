@@ -220,19 +220,20 @@ namespace ARMMordanizerService
             string location = "";
             string sourceTableQuery = "Select PropertyValue from [SystemGlobalProperties] WHERE [PropertyName] = @propertyName";
             try {
+                _connectionDB.con.Open();
                 using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
                 {
                     cmd.Parameters.AddWithValue("@propertyName", propertyName);
-                    _connectionDB.con.Open();
+                    
                     var dr = cmd.ExecuteReader();
                     if (dr.Read()) // Read() returns TRUE if there are records to read, or FALSE if there is nothing
                     {
                         location = dr["PropertyValue"].ToString();
 
                     }
-                    _connectionDB.con.Close();
-
+                    
                 }
+                _connectionDB.con.Close();
                 return location;
             }
             catch (Exception ex)
