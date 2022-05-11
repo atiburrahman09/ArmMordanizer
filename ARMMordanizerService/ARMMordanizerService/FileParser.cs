@@ -1,11 +1,13 @@
 ﻿using ARMMordanizerService.Model;
 using Aspose.Cells;
+using CsvHelper;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
@@ -48,7 +50,7 @@ namespace ARMMordanizerService
         private static readonly object Mylock = new object();
         public void FileParse(object sender, System.Timers.ElapsedEventArgs e)
         {
-            //if (!Monitor.TryEnter(Mylock, 0)) return;
+            if (!Monitor.TryEnter(Mylock, 0)) return;
             UploadQueue = _iArmRepo.GetFileLocation(1);
             if (!UploadQueue.EndsWith("\\"))
             {
@@ -74,20 +76,20 @@ namespace ARMMordanizerService
                 {
                     DataTable dt = GetFileData(file.Key, file.Value);
 
-                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ","_")));
                     if (isExists > 0)
                     {
-                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix1);
+                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix1);
                         if (result == 1)
                         {
-                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                             if (result == 1)
                             {
                                 createFileStore(file);
-                                string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                                string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                                 if (insertSql != "")
                                 {
-                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
+                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix2);
                                     if (result == 1)
                                     {
                                         result = _iArmRepo.InsertDestinationTable(insertSql);
@@ -101,18 +103,18 @@ namespace ARMMordanizerService
                     else if (isExists == -1) break;
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix1);
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix1);
                         var result = _iArmRepo.SchemeCreate(createTableSQL);
                         if (result == 1)
                         {
-                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                             if (result == 1)
                             {
                                 createFileStore(file);
-                                string insertSql = GetSQLFromMapping(file.Key);
+                                string insertSql = GetSQLFromMapping(file.Key.Replace(" ", "_"));
                                 if (insertSql != "")
                                 {
-                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
+                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix2);
                                     if (result == 1)
                                     {
                                         result = _iArmRepo.InsertDestinationTable(insertSql);
@@ -122,6 +124,8 @@ namespace ARMMordanizerService
                         }
 
                     }
+                    dt.Clear();
+                    dt.Dispose();
                 }
             }
 
@@ -140,7 +144,6 @@ namespace ARMMordanizerService
 
         public void FileParse()
         {
-            //if (!Monitor.TryEnter(Mylock, 0)) return;
             UploadQueue = _iArmRepo.GetFileLocation(1);
             if (!UploadQueue.EndsWith("\\"))
             {
@@ -166,20 +169,20 @@ namespace ARMMordanizerService
                 {
                     DataTable dt = GetFileData(file.Key, file.Value);
 
-                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                     if (isExists > 0)
                     {
-                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key),temTableNamePrefix1);
+                        var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix1);
                         if (result == 1)
                         {
-                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                            result = _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                             if (result == 1)
                             {
                                 createFileStore(file);
-                                string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                                string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                                 if (insertSql != "")
                                 {
-                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key),temTableNamePrefix2);
+                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix2);
                                     if (result == 1)
                                     {
                                         result = _iArmRepo.InsertDestinationTable(insertSql);
@@ -193,18 +196,18 @@ namespace ARMMordanizerService
                     else if (isExists == -1) break;
                     else
                     {
-                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix1);
+                        string createTableSQL = BuildCreateTableScript(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix1);
                         var result = _iArmRepo.SchemeCreate(createTableSQL);
                         if (result == 1)
                         {
-                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key));
+                            _iArmRepo.AddBulkData(dt, Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                             if (result == 1)
                             {
                                 createFileStore(file);
-                                string insertSql = GetSQLFromMapping(file.Key);
+                                string insertSql = GetSQLFromMapping(file.Key.Replace(" ", "_"));
                                 if (insertSql != "")
                                 {
-                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key), temTableNamePrefix2);
+                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix2);
                                     if (result == 1)
                                     {
                                         result = _iArmRepo.InsertDestinationTable(insertSql);
@@ -214,6 +217,8 @@ namespace ARMMordanizerService
                         }
 
                     }
+                    dt.Clear();
+                    dt.Dispose();
                 }
             }
 
@@ -259,7 +264,7 @@ namespace ARMMordanizerService
         {
             FileStore xFile = new FileStore
             {
-                FileName = Path.GetFileNameWithoutExtension(UploadQueue + file.Key),
+                FileName = Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ","_")),
                 ExecutionTime = DateTime.Now,
                 Status = true
             };
@@ -275,7 +280,7 @@ namespace ARMMordanizerService
             result.AppendFormat("CREATE TABLE [{0}] ( ", temTableNamePrefix + tableName);
 
             result.AppendFormat("[{0}] {1} {2} {3} {4}",
-                    "ID", // 0
+                    "PrimaryID", // 0
                     "[INT] ", // 1
                     "IDENTITY(1,1)",//2
                     "NOT NULL", // 3
@@ -359,29 +364,37 @@ namespace ARMMordanizerService
 
         private DataTable GetFileData(string key, Stream value)
         {
-            DataTable dt = new DataTable();
-            if (Path.GetExtension(key) == ".csv")
+            try
             {
-                //return CSVToDataTable(UploadQueue + key);
-
-                dt = CSVtoDataTable(UploadQueue + key);
-                value.Close();
-                return dt;
-            }
-            else
-            {
-                using (var package = new ExcelPackage(value))
+                DataTable dt = new DataTable();
+                if (Path.GetExtension(key) == ".csv")
                 {
+                    //return CSVToDataTable(UploadQueue + key);
 
-                    Workbook workbook = new Workbook(value);
-                    Worksheet worksheet = workbook.Worksheets[0];
-                    //worksheet
-                    dt = worksheet.Cells.ExportDataTable(0, 0, worksheet.Cells.MaxDataRow + 1, worksheet.Cells.MaxDataColumn + 1, true);
+                    dt = CSVtoDataTable(UploadQueue + key);
                     value.Close();
                     return dt;
+                }
+                else
+                {
+                    using (var package = new ExcelPackage(value))
+                    {
 
+                        Workbook workbook = new Workbook(value);
+                        Worksheet worksheet = workbook.Worksheets[0];
+                        //worksheet
+                        dt = worksheet.Cells.ExportDataTable(0, 0, worksheet.Cells.MaxDataRow + 1, worksheet.Cells.MaxDataColumn + 1, true);
+                        value.Close();
+                        return dt;
+
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
         public DataTable CSVtoDataTable(string inputpath)
         {
@@ -390,52 +403,61 @@ namespace ARMMordanizerService
             string Fulltext;
             if (File.Exists(inputpath))
             {
-                StreamReader sr = new StreamReader(inputpath);
-
-                while (!sr.EndOfStream)
+                //StreamReader sr = new StreamReader(inputpath);
+                using (var reader = new StreamReader(inputpath))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
-                    Fulltext = sr.ReadToEnd().ToString();//read full content
-                    string[] rows = Fulltext.Split('\n');//split file content to get the rows
-                    for (int i = 0; i < rows.Count() - 1; i++)
+                    // Do any configuration to `CsvReader` before creating CsvDataReader.
+                    using (var dr = new CsvDataReader(csv))
                     {
-                        var regex = new Regex("\\\"(.*?)\\\"");
-                        var output = regex.Replace(rows[i], m => m.Value.Replace(",", "\\c"));//replace commas inside quotes
-                        string[] rowValues = output.Split(',');//split rows with comma',' to get the column values
-                        {
-                            if (i == 0)
-                            {
-                                for (int j = 0; j < rowValues.Count(); j++)
-                                {
-                                    csvdt.Columns.Add(rowValues[j].Replace("\\c", ",").Trim());//headers
-                                }
-
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    DataRow dr = csvdt.NewRow();
-                                    for (int k = 0; k < rowValues.Count(); k++)
-                                    {
-                                        if (k >= dr.Table.Columns.Count)// more columns may exist
-                                        {
-                                            csvdt.Columns.Add("clmn" + k);
-                                            dr = csvdt.NewRow();
-                                        }
-                                        dr[k] = rowValues[k].Replace("\\c", ",").Trim();
-
-                                    }
-                                    csvdt.Rows.Add(dr);//add other rows
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("error");
-                                }
-                            }
-                        }
+                        //var dt = new DataTable();
+                        csvdt.Load(dr);
                     }
                 }
-                sr.Close();
+                //while (!sr.EndOfStream)
+                //{
+                //    Fulltext = sr.ReadToEnd().ToString();//read full content
+                //    string[] rows = Fulltext.Split('\n');//split file content to get the rows
+                //    for (int i = 0; i < rows.Count() - 1; i++)
+                //    {
+                //        var regex = new Regex("\\\"(.*?)\\\"");
+                //        var output = regex.Replace(rows[i], m => m.Value.Replace(",", "\\c"));//replace commas inside quotes
+                //        string[] rowValues = output.Split(',');//split rows with comma',' to get the column values
+                //        {
+                //            if (i == 0)
+                //            {
+                //                for (int j = 0; j < rowValues.Count(); j++)
+                //                {
+                //                    csvdt.Columns.Add(rowValues[j].Replace("\\c", ",").Trim());//headers
+                //                }
+
+                //            }
+                //            else
+                //            {
+                //                try
+                //                {
+                //                    DataRow dr = csvdt.NewRow();
+                //                    for (int k = 0; k < rowValues.Count(); k++)
+                //                    {
+                //                        if (k >= dr.Table.Columns.Count)// more columns may exist
+                //                        {
+                //                            csvdt.Columns.Add("clmn" + k);
+                //                            dr = csvdt.NewRow();
+                //                        }
+                //                        dr[k] = rowValues[k].Replace("\\c", ",").Trim();
+
+                //                    }
+                //                    csvdt.Rows.Add(dr);//add other rows
+                //                }
+                //                catch
+                //                {
+                //                    Console.WriteLine("error");
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
+                //sr.Close();
 
             }
             return csvdt;

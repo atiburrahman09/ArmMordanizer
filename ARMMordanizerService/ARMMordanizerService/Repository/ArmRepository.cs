@@ -46,9 +46,9 @@ namespace ARMMordanizerService
                         da.Fill(dtSource);
                     }
                 }
-                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con) { DestinationTableName = temTableNamePrefix1 + tableName, BulkCopyTimeout = 0 })
+                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con) { DestinationTableName = temTableNamePrefix1 + tableName, BatchSize = 500000000 , BulkCopyTimeout = 0 })
                 {
-
+                    
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
                         string destinationColumnName = dt.Columns[i].ToString();
@@ -69,6 +69,8 @@ namespace ARMMordanizerService
                     }
                     _connectionDB.con.Open();
                     bulk.WriteToServer(dt);
+                    dt.Clear();
+                    dt.Dispose();
                     _connectionDB.con.Close();
                 }
                 //using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(_connectionDB.con))
@@ -163,6 +165,7 @@ namespace ARMMordanizerService
             catch (Exception ex)
             {
                 _logger.Log("SchemeCreate Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                _connectionDB.con.Close();
                 //throw ex;
                 return -1;
             }
