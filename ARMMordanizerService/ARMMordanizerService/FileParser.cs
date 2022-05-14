@@ -280,7 +280,7 @@ namespace ARMMordanizerService
             result.AppendFormat("CREATE TABLE [{0}] ( ", temTableNamePrefix + tableName);
 
             result.AppendFormat("[{0}] {1} {2} {3} {4}",
-                    "PrimaryID", // 0
+                    "ImportID", // 0
                     "[INT] ", // 1
                     "IDENTITY(1,1)",//2
                     "NOT NULL", // 3

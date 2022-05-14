@@ -885,3 +885,24 @@ Affected parameters are:
    logtoconsole = 
    logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
    assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARMMordanizer.
+Service ARMMordanizer is being removed from the system...
+Service ARMMordanizer was successfully removed from the system.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARM File Upload...
+Service ARM File Upload has been successfully installed.
+Creating EventLog source ARM File Upload in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe

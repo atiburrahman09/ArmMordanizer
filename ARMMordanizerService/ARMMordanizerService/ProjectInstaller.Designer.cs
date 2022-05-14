@@ -39,7 +39,7 @@
             // 
             // ARMMordanizer
             // 
-            this.ARMMordanizer.ServiceName = "ARMMordanizer";
+            this.ARMMordanizer.ServiceName = "ARM File Upload";
             // 
             // ProjectInstaller
             // 
