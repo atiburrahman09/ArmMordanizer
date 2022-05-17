@@ -372,6 +372,10 @@ namespace ARMMordanizerService
                     //return CSVToDataTable(UploadQueue + key);
 
                     dt = CSVtoDataTable(UploadQueue + key);
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        col.ColumnName = col.ColumnName.Trim();
+                    }
                     value.Close();
                     return dt;
                 }
@@ -384,6 +388,10 @@ namespace ARMMordanizerService
                         Worksheet worksheet = workbook.Worksheets[0];
                         //worksheet
                         dt = worksheet.Cells.ExportDataTable(0, 0, worksheet.Cells.MaxDataRow + 1, worksheet.Cells.MaxDataColumn + 1, true);
+                        foreach (DataColumn col in dt.Columns)
+                        {
+                            col.ColumnName = col.ColumnName.Trim();
+                        }
                         value.Close();
                         return dt;
 
