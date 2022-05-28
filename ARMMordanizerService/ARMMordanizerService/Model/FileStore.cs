@@ -11,5 +11,6 @@ namespace ARMMordanizerService.Model
         public string FileName { get; set; }
         public DateTime ExecutionTime { get; set; }
         public bool Status { get; set; }
+        public string TableName { get; set; }
     }
 }

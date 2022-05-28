@@ -123,8 +123,8 @@ namespace ARMMordanizerService
 
         public int SaveFile(FileStore file)
         {
-            string query = "INSERT INTO FileStore (FileName, ExecutionTime, Status) " +
-                   "VALUES (@FileName, @ExecutionTime, @Status) ";
+            string query = "INSERT INTO FileStore (FileName, ExecutionTime, Status,TableName) " +
+                   "VALUES (@FileName, @ExecutionTime, @Status,@TableName) ";
 
             try
             {
@@ -133,6 +133,8 @@ namespace ARMMordanizerService
                     cmd.Parameters.AddWithValue("@FileName", file.FileName);
                     cmd.Parameters.AddWithValue("@ExecutionTime", file.ExecutionTime);
                     cmd.Parameters.AddWithValue("@Status", file.Status);
+                    cmd.Parameters.AddWithValue("@TableName", file.TableName);
+
 
 
                     _connectionDB.con.Open();

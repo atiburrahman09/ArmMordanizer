@@ -37,8 +37,6 @@ E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMor
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.CopyComplete
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.exe
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.pdb
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.AssemblyReference.cache
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csproj.SuggestedBindingRedirects.cache
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\CsvHelper.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\Microsoft.Bcl.HashCode.dll
@@ -55,3 +53,4 @@ E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\System
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\System.Numerics.Vectors.xml
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Debug\System.Threading.Tasks.Extensions.xml
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Debug\ARMMordanizerService.csprojAssemblyReference.cache

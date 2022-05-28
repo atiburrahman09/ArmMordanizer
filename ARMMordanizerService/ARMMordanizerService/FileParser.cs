@@ -262,11 +262,13 @@ namespace ARMMordanizerService
 
         private void createFileStore(KeyValuePair<string, Stream> file)
         {
+            string tableName = temTableNamePrefix1 + Path.GetFileNameWithoutExtension(file.Key).Replace(" ", "_");
             FileStore xFile = new FileStore
             {
                 FileName = Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ","_")),
                 ExecutionTime = DateTime.Now,
-                Status = true
+                Status = true,
+                TableName = tableName
             };
             _iArmRepo.SaveFile(xFile);
         }
