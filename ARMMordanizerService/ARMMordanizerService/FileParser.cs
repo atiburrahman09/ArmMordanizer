@@ -76,7 +76,7 @@ namespace ARMMordanizerService
                 {
                     DataTable dt = GetFileData(file.Key, file.Value);
 
-                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ","_")));
+                    int isExists = _iArmRepo.CheckTableExists(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                     if (isExists > 0)
                     {
                         var result = _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix1);
@@ -182,10 +182,14 @@ namespace ARMMordanizerService
                                 string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                                 if (insertSql != "")
                                 {
-                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix2);
-                                    if (result == 1)
+                                    string destinationTableName = _iArmRepo.GetDestinationTableName(temTableNamePrefix1 + Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
+                                    if (destinationTableName != "")
                                     {
-                                        result = _iArmRepo.InsertDestinationTable(insertSql);
+                                        result = _iArmRepo.TruncateTable(destinationTableName);
+                                        if (result == 1)
+                                        {
+                                            result = _iArmRepo.InsertDestinationTable(insertSql);
+                                        }
                                     }
                                 }
                             }
@@ -207,10 +211,14 @@ namespace ARMMordanizerService
                                 string insertSql = GetSQLFromMapping(file.Key.Replace(" ", "_"));
                                 if (insertSql != "")
                                 {
-                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix2);
-                                    if (result == 1)
+                                    string destinationTableName = _iArmRepo.GetDestinationTableName(temTableNamePrefix1 + Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
+                                    if (destinationTableName != "")
                                     {
-                                        result = _iArmRepo.InsertDestinationTable(insertSql);
+                                        result = _iArmRepo.TruncateTable(destinationTableName);
+                                        if (result == 1)
+                                        {
+                                            result = _iArmRepo.InsertDestinationTable(insertSql);
+                                        }
                                     }
                                 }
                             }
@@ -256,7 +264,7 @@ namespace ARMMordanizerService
                 moveTo = UploadCompletePath + Path.GetFileNameWithoutExtension(file) + DateTime.Now.ToString("ddMMyy") + Path.GetExtension(file);
 
                 //moving file
-                File.Copy(fileToMove, moveTo,true);
+                File.Copy(fileToMove, moveTo, true);
             }
         }
 
@@ -265,7 +273,7 @@ namespace ARMMordanizerService
             string tableName = temTableNamePrefix1 + Path.GetFileNameWithoutExtension(file.Key).Replace(" ", "_");
             FileStore xFile = new FileStore
             {
-                FileName = Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ","_")),
+                FileName = Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")),
                 ExecutionTime = DateTime.Now,
                 Status = true,
                 TableName = tableName
@@ -404,7 +412,7 @@ namespace ARMMordanizerService
             {
                 throw ex;
             }
-           
+
         }
         public DataTable CSVtoDataTable(string inputpath)
         {

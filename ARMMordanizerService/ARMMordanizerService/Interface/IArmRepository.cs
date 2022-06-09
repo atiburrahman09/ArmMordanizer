@@ -18,5 +18,8 @@ namespace ARMMordanizerService
         string GetFileLocation(int Key);
         string GetSqlFromMappingConfig(string key);
         int InsertDestinationTable(string insertSql);
+        string GetDestinationTableName(string sourceTableName);
+        int TruncateTable(string TableName);
+
     }
 }

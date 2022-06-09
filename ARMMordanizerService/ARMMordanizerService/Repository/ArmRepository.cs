@@ -25,6 +25,7 @@ namespace ARMMordanizerService
         private string UploadQueue = "";
         private string UploadCompletePath = "";
         private string UploadLogFile = "";
+        private string defaultSchema = "dbo.";
         public ArmRepository()
         {
             _logger = Logger.GetInstance;
@@ -46,9 +47,9 @@ namespace ARMMordanizerService
                         da.Fill(dtSource);
                     }
                 }
-                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con) { DestinationTableName = temTableNamePrefix1 + tableName, BatchSize = 500000000 , BulkCopyTimeout = 0 })
+                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con) { DestinationTableName = temTableNamePrefix1 + tableName, BatchSize = 500000000, BulkCopyTimeout = 0 })
                 {
-                    
+
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
                         string destinationColumnName = dt.Columns[i].ToString();
@@ -91,6 +92,13 @@ namespace ARMMordanizerService
                 //throw ex;
                 return -1;
             }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
+            }
 
 
         }
@@ -117,6 +125,13 @@ namespace ARMMordanizerService
                 _logger.Log("CheckTableExists Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
                 //throw ex;
                 return -1;
+            }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
             }
 
         }
@@ -145,9 +160,16 @@ namespace ARMMordanizerService
             }
             catch (Exception ex)
             {
-                _logger.Log("SaveFile Exception: " + ex.Message,UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                _logger.Log("SaveFile Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
                 //throw ex;
                 return -1;
+            }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
             }
         }
 
@@ -167,13 +189,20 @@ namespace ARMMordanizerService
             catch (Exception ex)
             {
                 _logger.Log("SchemeCreate Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
-                _connectionDB.con.Close();
+                //_connectionDB.con.Close();
                 //throw ex;
                 return -1;
             }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
+            }
         }
 
-        public int TruncateTable(string TableName,string tablePrefix)
+        public int TruncateTable(string TableName, string tablePrefix)
         {
             string tableName = tablePrefix + TableName;
             //string query = "truncate table @TableName";
@@ -195,6 +224,13 @@ namespace ARMMordanizerService
                 _logger.Log("TruncateTable Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
                 //throw ex;
                 return -1;
+            }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
             }
         }
 
@@ -218,25 +254,26 @@ namespace ARMMordanizerService
             else if (Key == 3)
             {
                 propertyName = Enum.GetName(typeof(KeyNames), 3);
-                
+
             }
 
 
             string location = "";
             string sourceTableQuery = "Select PropertyValue from [SystemGlobalProperties] WHERE [PropertyName] = @propertyName";
-            try {
+            try
+            {
                 _connectionDB.con.Open();
                 using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
                 {
                     cmd.Parameters.AddWithValue("@propertyName", propertyName);
-                    
+
                     var dr = cmd.ExecuteReader();
                     if (dr.Read()) // Read() returns TRUE if there are records to read, or FALSE if there is nothing
                     {
                         location = dr["PropertyValue"].ToString();
 
                     }
-                    
+
                 }
                 _connectionDB.con.Close();
                 return location;
@@ -246,6 +283,13 @@ namespace ARMMordanizerService
                 _logger.Log("GetFileLocation Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
 
                 throw ex;
+            }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
             }
 
         }
@@ -259,7 +303,7 @@ namespace ARMMordanizerService
                 string query = "Select SQL from [MapperConfiguration] WHERE [SourceTable] = @sourceTable AND IsActive = 1";
                 using (SqlCommand cmd = new SqlCommand(query, _connectionDB.con))
                 {
-                    cmd.Parameters.AddWithValue("@sourceTable", "dbo."+ temTableNamePrefix1 + key);
+                    cmd.Parameters.AddWithValue("@sourceTable", "dbo." + temTableNamePrefix1 + key);
                     _connectionDB.con.Open();
                     var dr = cmd.ExecuteReader();
                     if (dr.Read()) // Read() returns TRUE if there are records to read, or FALSE if there is nothing
@@ -278,14 +322,21 @@ namespace ARMMordanizerService
 
                 return "";
             }
-            
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
+            }
+
         }
 
         public int InsertDestinationTable(string insertSql)
         {
             try
             {
-                
+
                 using (SqlCommand cmd = new SqlCommand(insertSql, _connectionDB.con))
                 {
                     _connectionDB.con.Open();
@@ -299,6 +350,78 @@ namespace ARMMordanizerService
                 _logger.Log("InsertDestinationTable Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
                 //throw ex;
                 return -1;
+            }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
+            }
+        }
+
+        public string GetDestinationTableName(string sourceTableName)
+        {
+            try
+            {
+                string destinationTableName = "";
+                string sql = "SELECT DISTINCT [DestinationTable] FROM [dbo].[MapperConfiguration] WHERE [SourceTable] = @sourceTableName";
+
+
+                using (SqlCommand cmd = new SqlCommand(sql, _connectionDB.con))
+                {
+                    _connectionDB.con.Open();
+                    cmd.Parameters.AddWithValue("@sourceTableName", defaultSchema + sourceTableName);
+
+                    destinationTableName = (string)cmd.ExecuteScalar();
+
+                    _connectionDB.con.Close();
+                }
+                return destinationTableName;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log("GetDestinationTableName Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                //throw ex;
+                return "";
+            }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
+            }
+        }
+
+        public int TruncateTable(string TableName)
+        {
+            string strTruncateTable = "TRUNCATE TABLE " + TableName;
+
+
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(strTruncateTable, _connectionDB.con))
+                {
+                    _connectionDB.con.Open();
+                    cmd.ExecuteNonQuery();
+                    _connectionDB.con.Close();
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log("TruncateTable Exception: " + ex.Message, UploadLogFile.Replace("DDMMYY", DateTime.Now.ToString("ddMMyy")));
+                //throw ex;
+                return -1;
+            }
+            finally
+            {
+                if (_connectionDB.con.State == System.Data.ConnectionState.Open)
+                {
+                    _connectionDB.con.Close();
+                }
             }
         }
     }
