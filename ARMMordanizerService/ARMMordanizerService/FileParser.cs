@@ -50,7 +50,6 @@ namespace ARMMordanizerService
         private static readonly object Mylock = new object();
         public void FileParse(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (!Monitor.TryEnter(Mylock, 0)) return;
             UploadQueue = _iArmRepo.GetFileLocation(1);
             if (!UploadQueue.EndsWith("\\"))
             {
@@ -89,10 +88,14 @@ namespace ARMMordanizerService
                                 string insertSql = GetSQLFromMapping(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
                                 if (insertSql != "")
                                 {
-                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix2);
-                                    if (result == 1)
+                                    string destinationTableName = _iArmRepo.GetDestinationTableName(temTableNamePrefix1 + Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
+                                    if (destinationTableName != "")
                                     {
-                                        result = _iArmRepo.InsertDestinationTable(insertSql);
+                                        result = _iArmRepo.TruncateTable(destinationTableName);
+                                        if (result == 1)
+                                        {
+                                            result = _iArmRepo.InsertDestinationTable(insertSql);
+                                        }
                                     }
                                 }
                             }
@@ -114,10 +117,14 @@ namespace ARMMordanizerService
                                 string insertSql = GetSQLFromMapping(file.Key.Replace(" ", "_"));
                                 if (insertSql != "")
                                 {
-                                    _iArmRepo.TruncateTable(Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")), temTableNamePrefix2);
-                                    if (result == 1)
+                                    string destinationTableName = _iArmRepo.GetDestinationTableName(temTableNamePrefix1 + Path.GetFileNameWithoutExtension(UploadQueue + file.Key.Replace(" ", "_")));
+                                    if (destinationTableName != "")
                                     {
-                                        result = _iArmRepo.InsertDestinationTable(insertSql);
+                                        result = _iArmRepo.TruncateTable(destinationTableName);
+                                        if (result == 1)
+                                        {
+                                            result = _iArmRepo.InsertDestinationTable(insertSql);
+                                        }
                                     }
                                 }
                             }
