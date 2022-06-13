@@ -906,3 +906,16 @@ Affected parameters are:
    logtoconsole = 
    logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
    assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing assembly 'D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARM File Upload...
+Service ARM File Upload has been successfully installed.
+Creating EventLog source ARM File Upload in log Application...
+Committing assembly 'D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
