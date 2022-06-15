@@ -50,6 +50,7 @@ namespace ARMMordanizerService
         private static readonly object Mylock = new object();
         public void FileParse(object sender, System.Timers.ElapsedEventArgs e)
         {
+            if (!Monitor.TryEnter(Mylock, 0)) return;
             UploadQueue = _iArmRepo.GetFileLocation(1);
             if (!UploadQueue.EndsWith("\\"))
             {
