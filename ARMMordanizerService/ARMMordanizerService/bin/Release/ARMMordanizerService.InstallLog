@@ -906,3 +906,37 @@ Affected parameters are:
    logtoconsole = 
    logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
    assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARM File Upload...
+Creating EventLog source ARM File Upload in log Application...
+Rolling back assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Restoring event log to previous state for source ARM File Upload.
+Uninstalling assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Removing EventLog source ARM File Upload.
+Service ARM File Upload is being removed from the system...
+Service ARM File Upload was successfully removed from the system.
+Installing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
+Installing service ARM File Upload...
+Service ARM File Upload has been successfully installed.
+Creating EventLog source ARM File Upload in log Application...
+Committing assembly 'E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.InstallLog
+   assemblypath = E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
