@@ -39,7 +39,7 @@ namespace ARMMordanizerService
             try
             {
                 DataTable dtSource = new DataTable();
-                string sourceTableQuery = "Select top 1 * from " + temTableNamePrefix1 + tableName;
+                string sourceTableQuery = "Select top 1 * from [" + temTableNamePrefix1 + tableName + "]";
                 using (SqlCommand cmd = new SqlCommand(sourceTableQuery, _connectionDB.con))
                 {
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -47,7 +47,7 @@ namespace ARMMordanizerService
                         da.Fill(dtSource);
                     }
                 }
-                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con) { DestinationTableName = temTableNamePrefix1 + tableName, BatchSize = 500000000, BulkCopyTimeout = 0 })
+                using (SqlBulkCopy bulk = new SqlBulkCopy(_connectionDB.con) { DestinationTableName = "[" + temTableNamePrefix1 + tableName + "]", BatchSize = 500000000, BulkCopyTimeout = 0 })
                 {
 
                     for (int i = 0; i < dt.Columns.Count; i++)
@@ -206,7 +206,7 @@ namespace ARMMordanizerService
         {
             string tableName = tablePrefix + TableName;
             //string query = "truncate table @TableName";
-            string strTruncateTable = "TRUNCATE TABLE " + tableName;
+            string strTruncateTable = "TRUNCATE TABLE [" + tableName + "]";
 
 
             try

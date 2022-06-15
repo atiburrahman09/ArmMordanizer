@@ -31,8 +31,6 @@ E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\Syst
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\System.Numerics.Vectors.xml
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
 E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\System.Threading.Tasks.Extensions.xml
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.csproj.AssemblyReference.cache
-E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.csproj.SuggestedBindingRedirects.cache
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe.config
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.exe
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\bin\Release\ARMMordanizerService.pdb
@@ -67,3 +65,4 @@ D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Relea
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.csproj.CopyComplete
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.exe
 D:\Upwork\Andy\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.pdb
+E:\work\ArmMordanizer\ARMMordanizerService\ARMMordanizerService\obj\Release\ARMMordanizerService.csprojAssemblyReference.cache
